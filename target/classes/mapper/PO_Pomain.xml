@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.sun.bosen.mapper.PO_PomainMapper">    
+       
+        <resultMap type="PO_Pomain" id="PO_PomainBean">
+        	<id column="POID" property="pOID"/>
+        	<result column="cPOID" property="cPOID"/>
+        	<result column="dPoDate" property="dPoDate"/>
+        	<result column="cMemo" property="cMemo"/>
+        	<association property="vendor" javaType="Vendor">
+        		<result column="cVenCode" property="cVenCode"/>
+        		<result column="cVenName" property="cVenName"/>
+        	</association>
+        </resultMap>
+        <select id="list" resultMap="PO_PomainBean">
+        
+        	select top 100 PO_Pomain.POID,PO_Pomain.cPOID,
+            convert(varchar(50),PO_Pomain.dPoDate,23) as dPoDate,
+            PO_Pomain.cMemo,Vendor.cVenCode,Vendor.cVenName from   
+            PO_Pomain left join  Vendor on  PO_Pomain.cVenCode=Vendor.cVenCode
+            left join PO_Podetails on PO_Pomain.POID=PO_Podetails.POID
+            <where>
+            	<if test="!bFinished">
+            		and PO_Podetails.iQuantity>PO_Podetails.iReceivedQTY
+            	</if>
+            	<if test="endId!=-1">
+            	    and PO_Pomain.POID &lt; #{endId}
+            	</if>
+            	and PO_Pomain.cCloser is null
+            </where>
+            order by PO_Pomain.POID desc
+        </select>
+        
+        <select id="getPo_Pomain" resultType="PO_Pomain">
+		SELECT cPOID,dPODate as dPoDate,cVenCode ,cPersonCode,cDepCode,cPTCode as cPtCode,
+		cMemo,cMaker,POID as pOID,cBusType ,cAccountPDate FROM PO_Pomain
+        	<where >
+        		<if test="pOID!=null">
+        			and POID=#{pOID}
+        		</if>		
+        	</where>
+        </select>    
+    </mapper>

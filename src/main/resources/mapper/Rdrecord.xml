@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.sun.bosen.mapper.RdrecordMapper"> 
+    	<select id="getLastInfo"  resultType="Rdrecord" parameterType="String">
+    		select  top 1 ID as iD,cCode from Rdrecord 
+    		<where>
+	  	<choose>
+		  <when test="busType != null">
+		    and  cBusType=#{busType}  order by ID desc 
+		  </when>			  
+		  		  		
+	  	  <otherwise>
+	  	  and  ID>0 order by ID desc
+	  	  </otherwise>
+	  	</choose>
+	  </where>
+    	</select>   
+       <select id="add" parameterType="Rdrecord">
+			
+
+insert into Rdrecord (ID,bRdFlag, cVouchType,cBusType,cSource,cWhCode,cRdCode,cDepCode,cPersonCode,cPTCode,cVenCode,cMemo,VT_ID,dDate,cCode,cOrderCode,cMaker,ipurorderid,cAccountPDate)           
+ values(#{iD},#{bRdFlag},#{cVouchType},#{cBusType},#{cSource},#{cWhCode},#{cRdCode},#{cDepCode},#{cPersonCode},#{cPtCode},#{cVenCode},#{cMemo},#{vT_ID},#{dDate},#{cCode},#{cOrderCode},#{cMaker},#{iPurorderid},#{cAccountPDate})
+			
+       </select>
+       	
+       <select id="updateUfs">
+       		update ufsystem..ua_identity set ifatherid=(select max(id) from rdrecord) ,
+				ichildid=(select max(autoid)from rdrecords) where cacc_id=001 and cvouchtype='rd'
+       		
+       </select>
+    </mapper>

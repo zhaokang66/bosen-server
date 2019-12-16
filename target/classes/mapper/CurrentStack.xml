@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.sun.bosen.mapper.CurrentStockMapper">    
+        <select id="ifExists" parameterType="PO_Podetails" resultType="int">
+        	select count(AutoID) from CurrentStock where cWhCode=#{cWhCode} and cInvCode=#{inventory.cInvCode}
+        </select>
+        
+        <select id="updateCurrentStock" parameterType="PO_Podetails">
+			update CurrentStock set iQuantity=iQuantity + #{nowiReceivedQTY} where cWhCode=#{cWhCode} and cInvCode=#{inventory.cInvCode}
+        </select>
+        
+        <select id="addCurrentStock" parameterType="PO_Podetails">
+        	INSERT into CurrentStock (cWhCode,cInvCode,iQuantity,fInQuantity,fOutQuantity,fTransInQuantity,
+					fTransOutQuantity,fPlanQuantity,fDisableQuantity,fAvaQuantity,iMassDate)
+					 values (#{cWhCode},#{inventory.cInvCode},#{nowiReceivedQTY},0,0,0,0,0,0,0,NULL)
+        </select>
+
+    </mapper>

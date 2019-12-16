@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.sun.bosen.mapper.PO_PodetailsMapper">    
+       
+        <resultMap type="PO_Podetails" id="PO_PodetailsBean">
+        	<id column="ID" property="id"/>
+        	<result column="POID" property="pOID"/>
+        	<result column="iQuantity" property="iQuantity"/>
+        	<result column="iReceivedQTY" property="iReceivedQTY"/>
+        	<result column="cDefine22" property="productionCode"/>
+        	
+        	<association property="inventory" javaType="Inventory">
+        		<result column="cInvCode" property="cInvCode"/>
+        		<result column="cInvName" property="cInvName"/>
+        		<result column="cInvStd" property="cInvStd"/>
+        		
+        		<association property="computationUnit" javaType="ComputationUnit">
+        			<result column="cComunitCode" property="cComunitCode"/>
+        			<result column="cComunitName" property="cComunitName"/>
+        		</association>
+        	</association>      	
+        </resultMap>
+        
+        
+        <select id="list" resultMap="PO_PodetailsBean">
+        	select PO_Podetails.ID,PO_Podetails.POID,PO_Podetails.iQuantity,PO_Podetails.iReceivedQTY,
+        	Inventory.cInvCode,Inventory.cInvName,Inventory.cInvStd,
+        	ComputationUnit.cComunitCode,ComputationUnit.cComunitName,cDefine22
+        	from PO_Podetails 
+        	left join Inventory on PO_Podetails.cInvCode=Inventory.cInvCode
+        	left join ComputationUnit on Inventory.cComunitCode=ComputationUnit.cComunitCode
+        	<where>
+        		<if test="pOID!=null">
+        			and PO_Podetails.POID=#{pOID}
+        		</if>        	
+        	</where>
+        </select>
+        
+        <select id="updateiReceivedQTY" parameterType="po_Podetails" >    
+        	update PO_Podetails set iReceivedQTY= iReceivedQTY + #{nowiReceivedQTY}
+        	
+        	<where>
+        		<if test="id!=null">
+        			and ID=#{id}
+        		</if>
+        	</where>
+        </select>
+        
+        <select id="getPo_podetails" parameterType="int" resultType="Rdrecords">
+        	select cInvCode,iQuantity,iUnitPrice as iUnitCost,iMoney as iPrice, 
+        	iReceivedMoney as iAPrice,cDefine25,ID as iPOsID,iUnitPrice as fACost,
+        	iTaxPrice as iTaxCost,iQuantity as iNQuantity,iTaxPrice as iTaxPrice,iPerTaxRate as iTaxRate,iNatSum as iSum
+        	from PO_Podetails
+        	<where>
+        		<if test="id!=null">
+        			and ID=#{id}
+        		</if>
+        	</where>
+        </select>
+    </mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.sun.bosen.mapper.RdrecordsMapper"> 
+    	<select id="getLastInfoId"  resultType="int">
+    		select Top 1 AutoID from Rdrecords order by AutoID desc
+    	</select>
+    	
+    	<select id="addRerdcords" parameterType="Rdrecords">
+    		insert into RdRecords (AutoID,ID,cInvCode,iQuantity,
+			iUnitCost,iPrice,iAPrice,cDefine25,iPOsID,fACost,iTaxCost,iNQuantity,iTaxPrice,iTaxRate,iSum)
+			values (#{autoId},#{iD},#{cInvCode},#{iQuantity},#{iUnitCost},#{iPrice},#{iAPrice},#{cDefine25},
+			#{iPOsID},#{fACost},#{iTaxCost},#{iNQuantity},#{iTaxPrice},#{iTaxRate},#{iSum})
+    		
+    	</select>
+    </mapper>
