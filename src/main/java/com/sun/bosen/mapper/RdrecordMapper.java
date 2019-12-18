@@ -2,6 +2,7 @@ package com.sun.bosen.mapper;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.sun.bosen.pojo.PO_Podetails;
 import com.sun.bosen.pojo.Rdrecord;
 import com.sun.bosen.pojo.Rdrecords;
 
@@ -13,4 +14,6 @@ public interface RdrecordMapper {
 	void test(Rdrecords rdrecordsList);
 
 	void updateUfs();
+
+	String isExists(PO_Podetails data);
 }

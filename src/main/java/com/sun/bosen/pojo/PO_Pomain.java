@@ -23,6 +23,7 @@ public class PO_Pomain {
 	private String cPersonCode;
 	private String cPtCode;
 	private String cMaker;
+	private String cVerifier;
 	
 	private String cAccountPDate;
 	
@@ -31,6 +32,12 @@ public class PO_Pomain {
 	}
 	public String getcAccountPDate() {
 		return cAccountPDate;
+	}
+	public void setcVerifier(String cVerifier) {
+		this.cVerifier = cVerifier;
+	}
+	public String getcVerifier() {
+		return cVerifier;
 	}
 	
 	public String getcMemo() {

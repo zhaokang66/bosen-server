@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.sun.bosen.mapper.PO_PomainMapper;
 import com.sun.bosen.pojo.PO_Podetails;
 import com.sun.bosen.pojo.PO_Pomain;
+import com.sun.bosen.pojo.Rdrecord;
 import com.sun.bosen.service.PO_PomainService;
 
 @Service
@@ -27,7 +28,7 @@ public class PO_PomainServiceImpl implements PO_PomainService {
 	}
 
 	@Override
-	public PO_Pomain getPo_Pomain(PO_Podetails data) {
+	public Rdrecord getPo_Pomain(PO_Podetails data) {
 		return po_PomainMapper.getPo_Pomain(data);
 	}
 

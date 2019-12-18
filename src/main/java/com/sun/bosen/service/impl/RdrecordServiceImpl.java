@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sun.bosen.mapper.RdrecordMapper;
+import com.sun.bosen.pojo.PO_Podetails;
 import com.sun.bosen.pojo.Rdrecord;
 import com.sun.bosen.pojo.Rdrecords;
 import com.sun.bosen.service.RdrecordService;
@@ -32,5 +33,10 @@ public class RdrecordServiceImpl implements RdrecordService{
 	public void updateUfs() {
 		rdrecordMapper.updateUfs();
 		
+	}
+
+	@Override
+	public String isExists(PO_Podetails data) {
+		return rdrecordMapper.isExists(data);
 	}
 }

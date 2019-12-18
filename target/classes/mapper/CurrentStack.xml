@@ -9,7 +9,7 @@
         </select>
         
         <select id="updateCurrentStock" parameterType="PO_Podetails">
-			update CurrentStock set iQuantity=iQuantity + #{nowiReceivedQTY} where cWhCode=#{cWhCode} and cInvCode=#{inventory.cInvCode}
+			update CurrentStock set iQuantity= ISNULL(iQuantity,0) + #{nowiReceivedQTY} where cWhCode=#{cWhCode} and cInvCode=#{inventory.cInvCode}
         </select>
         
         <select id="addCurrentStock" parameterType="PO_Podetails">

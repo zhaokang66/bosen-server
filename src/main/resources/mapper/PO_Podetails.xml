@@ -40,8 +40,7 @@
         </select>
         
         <select id="updateiReceivedQTY" parameterType="po_Podetails" >    
-        	update PO_Podetails set iReceivedQTY= iReceivedQTY + #{nowiReceivedQTY}
-        	
+        	update PO_Podetails set iReceivedQTY= ISNULL(iReceivedQTY,0) + #{nowiReceivedQTY} 
         	<where>
         		<if test="id!=null">
         			and ID=#{id}

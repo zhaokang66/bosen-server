@@ -13,13 +13,14 @@ public class Rdrecord {
 	private String cRdCode = "11";//Rd_Style 表中自定义的账单类型
 	private String cDepCode;
 	private String cPersonCode;
-	private String cPtCode;
+	private String cPtCode;//01
 	private String cVenCode;
 	private String cOrderCode;
 	private String cMemo;
 	private int vT_ID = 27;
 	private String cMaker;
 	private String cAccountPDate;
+	private String cHandler;
 	
 	public void setiD(int iD) {
 		this.iD = iD;
@@ -29,6 +30,12 @@ public class Rdrecord {
 	}
 	public int getbRdFlag() {
 		return bRdFlag;
+	}
+	public void setcHandler(String cHandler) {
+		this.cHandler = cHandler;
+	}
+	public String getcHandler() {
+		return cHandler;
 	}
 	public void setvT_ID(int vT_ID) {
 		this.vT_ID = vT_ID;

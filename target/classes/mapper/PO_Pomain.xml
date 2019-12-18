@@ -34,9 +34,9 @@
             order by PO_Pomain.POID desc
         </select>
         
-        <select id="getPo_Pomain" resultType="PO_Pomain">
-		SELECT cPOID,dPODate as dPoDate,cVenCode ,cPersonCode,cDepCode,cPTCode as cPtCode,
-		cMemo,cMaker,POID as pOID,cBusType ,cAccountPDate FROM PO_Pomain
+        <select id="getPo_Pomain" resultType="Rdrecord">
+		SELECT cPOID as cOrderCode,dPODate as dDate,cVenCode ,cPersonCode,cDepCode,cPTCode as cPtCode,
+		cMemo,cMaker,POID as pOID as iPurorderid,cBusType ,cAccountPDate,cVerifier as cHandler FROM PO_Pomain
         	<where >
         		<if test="pOID!=null">
         			and POID=#{pOID}

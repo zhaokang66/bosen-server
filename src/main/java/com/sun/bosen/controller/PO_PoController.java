@@ -107,59 +107,42 @@ public class PO_PoController {
 
 	@ResponseBody
 	@RequestMapping("/submitPO_Podetails")
-	public boolean submitPO_Podetails(
+	public String submitPO_Podetails(
 			@RequestBody PO_Podetails[] data) {
-//		for (int i = 0; i < data.length; i++) {
-//			po_PodetailsService.updateiReceivedQTY(data[i]);
-//			if (currentStockService.ifExists(data[0]) > 0) {//生出的入库单如存在，则执行更新操作，否则插入新的
-//				currentStockService.updateCurrentStock(data[0]);
-//			}else {
-//				currentStockService.addCurrentStock(data[0]);
-//			}
-
-			PO_Pomain po_PomainList =  po_PomainService.getPo_Pomain(data[0]);//从采购订单主表拿到数据
-			Rdrecord rdrecordList = new Rdrecord();
-			//把PO_Pomain 里的数据映射赋值给 Rerecord
-			 try {
-				 BeanUtils.copyProperties(po_PomainList, rdrecordList);
-		         BeanUtils.copyProperties(data[0], rdrecordList);//cWhCode赋值
-		     } catch (BeansException e) {
-		         System.out.println(e);
-		     } catch (Exception e) {
-		    	 System.out.println(e);
-		     }
-			 rdrecordList.setiPurorderid(po_PomainList.getpOID());
-			 rdrecordList.setcOrderCode(po_PomainList.getcPOID());
-			 rdrecordList.setdDate(po_PomainList.getdPoDate());
-			 rdrecordList.setiD(rdrecordService.getLastInfo(null).getiD()+1);//id自增
-			 int cCode = Integer.parseInt(rdrecordService.getLastInfo("普通采购").getcCode()) + 1;//得到普通采购类型的cCode字段最后一个值
-			 rdrecordList.setcCode(String.format("%010d", cCode));
-			 
-			 System.out.println(JSONObject.toJSONString(rdrecordList,SerializerFeature.WriteMapNullValue));
-			 
+		for (int i = 0; i < data.length; i++) {
+			po_PodetailsService.updateiReceivedQTY(data[i]);//更新入库数量
 			
-			 rdrecordService.add(rdrecordList);//向rdrecord插入数据
+			if (currentStockService.ifExists(data[i]) > 0) {//生出的入库单如存在，则执行更新操作，否则插入新的
+				currentStockService.updateCurrentStock(data[i]);
+			}else {
+				currentStockService.addCurrentStock(data[i]);
+			}
+			
+			if (rdrecordService.isExists(data[i]) == null) {//如果Rdrecord中存在iPurorderid等于POID并且cWhCode相等的数据，则不执行插入，否则插入新的
+				Rdrecord rdrecordList = po_PomainService.getPo_Pomain(data[i]);//从采购订单主表拿到数据
+				//把PO_Pomain 里的数据映射赋值给 Rerecord
+				rdrecordList.setiD(rdrecordService.getLastInfo(null).getiD()+1);//id自增
+				int cCode = Integer.parseInt(rdrecordService.getLastInfo("普通采购").getcCode()) + 1;//得到普通采购类型的cCode字段最后一个值
+				rdrecordList.setcCode(String.format("%010d", cCode));//格式化cCods
+				rdrecordList.setcWhCode(data[i].getcWhCode());
+				System.out.println(JSONObject.toJSONString(rdrecordList,SerializerFeature.WriteMapNullValue));
 
+				
+				rdrecordService.add(rdrecordList);//向rdrecord插入数据
+			}
+			 Rdrecords rdrecordsList = po_PodetailsService.getPo_podetails(data[i].getId());
+			 rdrecordsList.setautoId(rdrecordsService.getLastInfoId()+1);
+			 rdrecordsList.setiD(Integer.parseInt(rdrecordService.isExists(data[i])));
 			 
-			 
-//			 Rdrecords RdrecordsList = po_PodetailsService.getPo_podetails(data[0].getId());
-//			 
-//			 RdrecordsList.setautoId(rdrecordsService.getLastInfoId()+1);
-//			 RdrecordsList.setiD(rdrecordService.getLastInfo(null).getiD());
-//			 
-//			 System.out.println(JSONObject.toJSONString(RdrecordsList,SerializerFeature.WriteMapNullValue));
-//			 rdrecordsService.addRerdcords(RdrecordsList);
-			 
-			 rdrecordService.updateUfs();
-
-			 
-			 
-			 
-//		}
+			 System.out.println(JSONObject.toJSONString(rdrecordsList,SerializerFeature.WriteMapNullValue));
+			 rdrecordsService.addRerdcords(rdrecordsList);
+			  
+			 rdrecordService.updateUfs(); 
+		}
 
 
 
-		return true;
+		return "提交成功！";
 	}
 
 	

@@ -7,14 +7,14 @@
     	<select id="getLastInfo"  resultType="Rdrecord" parameterType="String">
     		select  top 1 ID as iD,cCode from Rdrecord 
     		<where>
-	  	<choose>
-		  <when test="busType != null">
-		    and  cBusType=#{busType}  order by ID desc 
-		  </when>			  
+	  			<choose>
+		  			<when test="busType != null">
+		   				 and  cBusType=#{busType}  order by ID desc 
+		  			</when>			  
 		  		  		
-	  	  <otherwise>
-	  	  and  ID>0 order by ID desc
-	  	  </otherwise>
+	  	  		<otherwise>
+	  	  			and  ID>0 order by ID desc
+	  	  		</otherwise>
 	  	</choose>
 	  </where>
     	</select>   
@@ -28,7 +28,10 @@ insert into Rdrecord (ID,bRdFlag, cVouchType,cBusType,cSource,cWhCode,cRdCode,cD
        	
        <select id="updateUfs">
        		update ufsystem..ua_identity set ifatherid=(select max(id) from rdrecord) ,
-				ichildid=(select max(autoid)from rdrecords) where cacc_id=001 and cvouchtype='rd'
+				ichildid=(select max(autoid)from rdrecords) where cacc_id=010 and cvouchtype='rd'
        		
+       </select>
+       <select id="isExists" parameterType="PO_Podetails" resultType="String">
+       		select Top 1 ID from Rdrecord where ipurorderid=#{pOID} and cWhCode=#{cWhCode} order by ID desc
        </select>
     </mapper>
