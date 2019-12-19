@@ -10,8 +10,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,11 +49,13 @@ import com.sun.bosen.service.PO_PomainService;
 import com.sun.bosen.service.RdrecordService;
 import com.sun.bosen.service.CurrentStockService;
 import com.sun.bosen.service.RdrecordsService;
+import com.sun.bosen.service.WarehouseService;
 import com.sun.bosen.util.ImageUtil;
 import com.sun.bosen.util.Result;
 import com.sun.bosen.util.UploadedImageFile;
 import com.sun.bosen.pojo.Rdrecord;
 import com.sun.bosen.pojo.Rdrecords;
+import com.sun.bosen.pojo.Warehouse;
 
 import Decoder.BASE64Decoder;
 
@@ -72,6 +76,8 @@ public class PO_PoController {
 	RdrecordService rdrecordService;
 	@Autowired
 	RdrecordsService rdrecordsService;
+	@Autowired
+	WarehouseService warehouseService;
 	
 	// ssm返回json需要添加注解@ResponseBody 和jackson-databind maven依赖
 	
@@ -109,6 +115,8 @@ public class PO_PoController {
 	@RequestMapping("/submitPO_Podetails")
 	public String submitPO_Podetails(
 			@RequestBody PO_Podetails[] data) {
+		int flag = 1;
+		int startID = 0;
 		for (int i = 0; i < data.length; i++) {
 			po_PodetailsService.updateiReceivedQTY(data[i]);//更新入库数量
 			
@@ -118,33 +126,61 @@ public class PO_PoController {
 				currentStockService.addCurrentStock(data[i]);
 			}
 			
-			if (rdrecordService.isExists(data[i]) == null) {//如果Rdrecord中存在iPurorderid等于POID并且cWhCode相等的数据，则不执行插入，否则插入新的
-				Rdrecord rdrecordList = po_PomainService.getPo_Pomain(data[i]);//从采购订单主表拿到数据
-				//把PO_Pomain 里的数据映射赋值给 Rerecord
-				rdrecordList.setiD(rdrecordService.getLastInfo(null).getiD()+1);//id自增
-				int cCode = Integer.parseInt(rdrecordService.getLastInfo("普通采购").getcCode()) + 1;//得到普通采购类型的cCode字段最后一个值
-				rdrecordList.setcCode(String.format("%010d", cCode));//格式化cCods
-				rdrecordList.setcWhCode(data[i].getcWhCode());
-				System.out.println(JSONObject.toJSONString(rdrecordList,SerializerFeature.WriteMapNullValue));
+			Rdrecord rdrecordList = po_PomainService.getPo_Pomain(data[i]);//从采购订单主表拿到数据
 
+			rdrecordList.setiD(rdrecordService.getLastInfo(null).getiD()+1);//id自增
+			int cCode = Integer.parseInt(rdrecordService.getLastInfo("普通采购").getcCode()) + 1;//得到普通采购类型的cCode字段最后一个值
+			rdrecordList.setcCode(String.format("%010d", cCode));//格式化cCods
+			rdrecordList.setcWhCode(data[i].getcWhCode());
+			System.out.println(JSONObject.toJSONString(rdrecordList,SerializerFeature.WriteMapNullValue));
+
+			//首先每个订单里可能有多条数据，而一个订单至少会对应一个入库单主表， 有多少条数据就会生成多少个入库单子表
+			//1.判断数据库中是否有相同的入库单主表,判断条件（cBusType cWhCode cVenCode cDepCode cPersonCode cPtCode）	
+				//判断方法返回 id和订单编号 如果id不为空 就证明有入库单存在，则不插入然后判断订单编号和待插入入库编号是否相等，如不相等，则设为空
+			
+			if (flag == 1) {
+				startID = rdrecordList.getiD();
+			}
+			
+			rdrecordList.setstartID(startID);
+			Rdrecord isExistsRdrecord = rdrecordService.isExists(rdrecordList);
+			Rdrecords rdrecordsList = po_PodetailsService.getPo_podetails(data[i].getId());
+			if (flag == 1 || isExistsRdrecord == null) {
+				flag = 0;
+				//插入当前时间作为入库时间
+				Date date = new Date();
+				SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.000");
+				dateFormat.format(date);
+				rdrecordList.setdDate(dateFormat.format(date));
 				
 				rdrecordService.add(rdrecordList);//向rdrecord插入数据
+				rdrecordsList.setiD(rdrecordService.getRdrecordId(data[i].getpOID()));
+				
+			}else {
+				if (!isExistsRdrecord.getcOrderCode().equals(rdrecordList.getcOrderCode())) {
+					//这里更新cOderCode为‘ ’
+					rdrecordService.updatecOrderCode(isExistsRdrecord.getiD());
+				}
+				rdrecordsList.setiD(isExistsRdrecord.getiD());
 			}
-			 Rdrecords rdrecordsList = po_PodetailsService.getPo_podetails(data[i].getId());
-			 rdrecordsList.setautoId(rdrecordsService.getLastInfoId()+1);
-			 rdrecordsList.setiD(Integer.parseInt(rdrecordService.isExists(data[i])));
+			rdrecordsList.setautoId(rdrecordsService.getLastInfoId()+1);
+			rdrecordsList.setiQuantity(data[i].getnowiReceivedQTY());
+			rdrecordsList.setiNQuantity(data[i].getnowiReceivedQTY());
 			 
-			 System.out.println(JSONObject.toJSONString(rdrecordsList,SerializerFeature.WriteMapNullValue));
-			 rdrecordsService.addRerdcords(rdrecordsList);
+			System.out.println(JSONObject.toJSONString(rdrecordsList,SerializerFeature.WriteMapNullValue));
+			rdrecordsService.addRerdcords(rdrecordsList);
 			  
 			 rdrecordService.updateUfs(); 
 		}
-
-
-
 		return "提交成功！";
 	}
-
+	@ResponseBody
+	@RequestMapping("/getcWhCodeList")
+	public List<Warehouse> getcWhCodeList() {
+		List<Warehouse> list = warehouseService.list();
+		System.out.println(JSONObject.toJSONString(list));
+		return list;
+	}
 	
 	public void test() {
 		List<PO_Pomain> list = po_PomainService.list(false, -1);

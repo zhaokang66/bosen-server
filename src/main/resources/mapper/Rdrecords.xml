@@ -10,9 +10,9 @@
     	
     	<select id="addRerdcords" parameterType="Rdrecords">
     		insert into RdRecords (AutoID,ID,cInvCode,iQuantity,
-			iUnitCost,iPrice,iAPrice,cDefine25,iPOsID,fACost,iTaxCost,iNQuantity,iTaxPrice,iTaxRate,iSum)
+			iUnitCost,iPrice,iAPrice,cDefine25,iPOsID,fACost,iTaxCost,iNQuantity,iTaxPrice,iTaxRate,iSum,iNum,cDefine22)
 			values (#{autoId},#{iD},#{cInvCode},#{iQuantity},#{iUnitCost},#{iPrice},#{iAPrice},#{cDefine25},
-			#{iPOsID},#{fACost},#{iTaxCost},#{iNQuantity},#{iTaxPrice},#{iTaxRate},#{iSum})
+			#{iPOsID},#{fACost},#{iTaxCost},#{iNQuantity},#{iTaxPrice},#{iTaxRate},#{iSum},0,#{cDefine22})
     		
     	</select>
     </mapper>

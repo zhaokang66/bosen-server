@@ -31,7 +31,18 @@ insert into Rdrecord (ID,bRdFlag, cVouchType,cBusType,cSource,cWhCode,cRdCode,cD
 				ichildid=(select max(autoid)from rdrecords) where cacc_id=010 and cvouchtype='rd'
        		
        </select>
-       <select id="isExists" parameterType="PO_Podetails" resultType="String">
-       		select Top 1 ID from Rdrecord where ipurorderid=#{pOID} and cWhCode=#{cWhCode} order by ID desc
+       
+       <select id="isExists" parameterType="Rdrecord" resultType="Rdrecord" >
+       		select ID as iD,cOrderCode from Rdrecord where cBusType=#{cBusType} and cWhCode=#{cWhCode} and cVenCode=#{cVenCode}
+       		and cDepCode=#{cDepCode} and cPersonCode=#{cPersonCode} and cPTCode=#{cPtCode} and ID >= #{startID}
        </select>
+       
+       <select id="updatecOrderCode" parameterType="int">
+			update Rdrecord set cOrderCode= ' ' where ID=#{id}
+       </select>
+       
+       <select id="getRdrecordId" parameterType="int" resultType="int">
+       select Top 1 ID from Rdrecord where ipurorderid=#{pOID} order by ID desc
+       </select>
+       
     </mapper>

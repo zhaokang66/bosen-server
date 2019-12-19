@@ -13,5 +13,10 @@ public interface RdrecordService {
 
 	void updateUfs();
 
-	String isExists(PO_Podetails data);
+
+	Rdrecord isExists(Rdrecord data);
+
+	void updatecOrderCode(int id);
+
+	int getRdrecordId(int getpOID);
 }

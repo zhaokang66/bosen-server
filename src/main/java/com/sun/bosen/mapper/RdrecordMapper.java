@@ -16,4 +16,12 @@ public interface RdrecordMapper {
 	void updateUfs();
 
 	String isExists(PO_Podetails data);
+
+	Rdrecord isExists(Rdrecord data);
+
+	void updatecOrderCode(@Param(value="id") int id);
+
+	int getRdrecordId(@Param(value="pOID") int pOID);
+
+
 }

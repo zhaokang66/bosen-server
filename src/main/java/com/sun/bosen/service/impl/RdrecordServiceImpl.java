@@ -35,8 +35,22 @@ public class RdrecordServiceImpl implements RdrecordService{
 		
 	}
 
+
 	@Override
-	public String isExists(PO_Podetails data) {
+	public Rdrecord isExists(Rdrecord data) {
+		
 		return rdrecordMapper.isExists(data);
+	}
+
+	@Override
+	public void updatecOrderCode(int id) {
+		
+		rdrecordMapper.updatecOrderCode(id);
+	}
+
+	@Override
+	public int getRdrecordId(int pOID) {
+		
+		return rdrecordMapper.getRdrecordId(pOID);
 	}
 }

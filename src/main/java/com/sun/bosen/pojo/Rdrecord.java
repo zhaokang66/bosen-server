@@ -9,11 +9,12 @@ public class Rdrecord {
 	private String cSource = "采购订单";
 	private String cWhCode;
 	private String dDate;
+	private int startID = 0;//记录本次开始ID
 	private String cCode;
-	private String cRdCode = "11";//Rd_Style 表中自定义的账单类型
+	private String cRdCode = "101";//Rd_Style 表中自定义的账单类型
 	private String cDepCode;
 	private String cPersonCode;
-	private String cPtCode;//01
+	private String cPtCode;
 	private String cVenCode;
 	private String cOrderCode;
 	private String cMemo;
@@ -42,6 +43,12 @@ public class Rdrecord {
 	}
 	public int getvT_ID() {
 		return vT_ID;
+	}
+	public void setstartID(int startID) {
+		this.startID = startID;
+	}
+	public int getstartID() {
+		return startID;
 	}
 	public void setiPurorderid(int iPurorderid) {
 		this.iPurorderid = iPurorderid;

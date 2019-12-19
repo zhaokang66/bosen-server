@@ -16,7 +16,14 @@ public class Rdrecords {
 	private float iTaxPrice;
 	private float iTaxRate;
 	private float iSum;
+	private String cDefine22;
 	
+	public String getcDefine22() {
+		return cDefine22;
+	}
+	public void setcDefine22(String cDefine22) {
+		this.cDefine22 = cDefine22;
+	}
 	public void setautoId(int autoId) {
 		this.autoId = autoId;
 	}
@@ -77,7 +84,7 @@ public class Rdrecords {
 	
 	
 	public void setiNQuantity(float iNQuantity) {
-		this.iQuantity = iNQuantity;
+		this.iNQuantity = iNQuantity;
 	}
 	public float getiNQuantity() {
 		return iNQuantity;
