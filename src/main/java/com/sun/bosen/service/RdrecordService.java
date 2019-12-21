@@ -9,7 +9,6 @@ public interface RdrecordService {
 	Rdrecord getLastInfo(String busType);
 
 
-	void test(Rdrecords rdrecordsList);
 
 	void updateUfs();
 

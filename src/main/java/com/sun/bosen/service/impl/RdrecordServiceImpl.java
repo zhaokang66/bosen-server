@@ -23,12 +23,6 @@ public class RdrecordServiceImpl implements RdrecordService{
 	public Rdrecord getLastInfo(String busType) {
 		return rdrecordMapper.getLastInfo( busType);
 	}
-
-	@Override
-	public void test(Rdrecords rdrecordsList) {
-		rdrecordMapper.test(rdrecordsList);
-	}
-
 	@Override
 	public void updateUfs() {
 		rdrecordMapper.updateUfs();

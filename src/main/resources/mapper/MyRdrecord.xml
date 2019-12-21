@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.sun.bosen.mapper.MyRdrecordMapper"> 
+    	<select id="getLastInfo"  resultType="Rdrecord" parameterType="String">
+    		select  top 1 ISNULL(ID,0) as iD,ISNULL(cCode,0)as cCode from My_Rdrecord 
+    		<where>
+	  			<choose>
+		  			<when test="busType != null">
+		   				 and  cBusType=#{busType}  order by ID desc 
+		  			</when>			  
+		  		  		
+	  	  		<otherwise>
+	  	  			and  ID>0 order by ID desc
+	  	  		</otherwise>
+	  	</choose>
+	  </where>
+    	</select>   
+       <select id="add" parameterType="Rdrecord">
+			
+
+insert into My_Rdrecord (bRdFlag, cVouchType,cBusType,cSource,cWhCode,cRdCode,cDepCode,cPersonCode,cPTCode,cVenCode,cMemo,VT_ID,dDate,cCode,cOrderCode,cMaker,ipurorderid,cAccountPDate)           
+ values(#{bRdFlag},#{cVouchType},#{cBusType},#{cSource},#{cWhCode},#{cRdCode},#{cDepCode},#{cPersonCode},#{cPtCode},#{cVenCode},#{cMemo},#{vT_ID},#{dDate},#{cCode},#{cOrderCode},#{cMaker},#{iPurorderid},#{cAccountPDate})
+			
+       </select>
+       	
+       <select id="isExists" parameterType="Rdrecord" resultType="Rdrecord" >
+       		select ID as iD,cOrderCode from My_Rdrecord where cBusType=#{cBusType} and cWhCode=#{cWhCode} and cVenCode=#{cVenCode}
+       		and cDepCode=#{cDepCode} and cPersonCode=#{cPersonCode} and cPTCode=#{cPtCode} and ID >= #{startID}
+       </select>
+       
+       <select id="updatecOrderCode" parameterType="int">
+			update My_Rdrecord set cOrderCode= ' ' where ID=#{id}
+       </select>
+       
+       <select id="getRdrecordId" parameterType="int" resultType="int">
+       select Top 1 ID from My_Rdrecord where ipurorderid=#{pOID} order by ID desc
+       </select>
+       
+    </mapper>

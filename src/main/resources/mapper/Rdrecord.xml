@@ -5,7 +5,7 @@
  
     <mapper namespace="com.sun.bosen.mapper.RdrecordMapper"> 
     	<select id="getLastInfo"  resultType="Rdrecord" parameterType="String">
-    		select  top 1 ID as iD,cCode from Rdrecord 
+    		select  top 1 ISNULL(ID,0) as iD,ISNULL(cCode,0)as cCode from Rdrecord 
     		<where>
 	  			<choose>
 		  			<when test="busType != null">
