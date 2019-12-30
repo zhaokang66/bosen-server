@@ -7,5 +7,6 @@ public interface RdrecordsMapper {
 	int getLastInfoId();
 
 	void addRerdcords(Rdrecords info);
+	void addTest();
 
 }

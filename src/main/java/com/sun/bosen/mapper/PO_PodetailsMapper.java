@@ -11,6 +11,7 @@ import com.sun.bosen.pojo.Rdrecords;
 
 public interface PO_PodetailsMapper {
 	List<PO_Podetails> list(Map<String,Object> param);
+	
 	void updateiReceivedQTY (PO_Podetails data);
 	Rdrecords getPo_podetails(@Param(value="id")int id);
 }

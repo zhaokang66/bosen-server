@@ -40,7 +40,8 @@
         </select>
         
         <select id="updateiReceivedQTY" parameterType="po_Podetails" >    
-        	update PO_Podetails set iReceivedQTY= ISNULL(iReceivedQTY,0) + #{nowiReceivedQTY} 
+        	update PO_Podetails set iReceivedQTY= ISNULL(iReceivedQTY,0) + #{nowiReceivedQTY},iReceivedNum=0,
+        	iReceivedMoney= (ISNULL(iReceivedQTY,0) + #{nowiReceivedQTY})*iUnitPrice
         	<where>
         		<if test="id!=null">
         			and ID=#{id}
@@ -49,9 +50,8 @@
         </select>
         
         <select id="getPo_podetails" parameterType="int" resultType="Rdrecords">
-        	select cInvCode,iUnitPrice as iUnitCost,iMoney as iPrice, 
-        	iReceivedMoney as iAPrice,cDefine25,ID as iPOsID,iUnitPrice as fACost,
-        	iTaxPrice as iTaxCost,iTaxPrice as iTaxPrice,iPerTaxRate as iTaxRate,iNatSum as iSum,cDefine22
+        	select cInvCode,iUnitPrice as iUnitCost,cDefine25,ID as iPOsID,iNatUnitPrice as fACost,
+        	iTaxPrice as iTaxCost,iPerTaxRate as iTaxRate,cDefine22
         	from PO_Podetails
         	<where>
         		<if test="id!=null">

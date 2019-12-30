@@ -34,12 +34,12 @@
             order by PO_Pomain.POID desc
         </select>
         
-        <select id="getPo_Pomain" resultType="Rdrecord">
+        <select id="getPo_Pomain" resultType="Rdrecord" parameterType="int">
 		SELECT cPOID as cOrderCode,cVenCode ,cPersonCode,cDepCode,cPTCode as cPtCode,
 		cMemo,cMaker,POID as iPurorderid,cBusType ,cAccountPDate,cVerifier as cHandler FROM PO_Pomain
         	<where >
-        		<if test="pOID!=null">
-        			and POID=#{pOID}
+        		<if test="id!=null">
+        			and POID=#{id}
         		</if>		
         	</where>
         </select>    

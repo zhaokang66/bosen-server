@@ -16,7 +16,6 @@ public class PO_Podetails {
 	//存货档案
 	private Inventory inventory;
 	//数量
-	private float iQuantity;
 	//累计到货数量
 	private float iReceivedQTY;
 	//生产编号
@@ -24,7 +23,13 @@ public class PO_Podetails {
 	//本次入库数量
 	private float nowiReceivedQTY;
 	private String cWhCode;
-	
+	private float iQuantity;
+	public float getNowiReceivedQTY() {
+		return nowiReceivedQTY;
+	}
+	public void setNowiReceivedQTY(float nowiReceivedQTY) {
+		this.nowiReceivedQTY = nowiReceivedQTY;
+	}
 	public String getcWhCode() {
 		return cWhCode;
 	}
@@ -33,9 +38,6 @@ public class PO_Podetails {
 	}
 	public float getiReceivedQTY() {
 		return iReceivedQTY;
-	}
-	public float getnowiReceivedQTY() {
-		return nowiReceivedQTY;
 	}
 	public void setiReceivedQTY(float iReceivedQTY) {
 		this.iReceivedQTY = iReceivedQTY;

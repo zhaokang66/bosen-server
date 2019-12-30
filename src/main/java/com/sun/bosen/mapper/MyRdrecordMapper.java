@@ -1,5 +1,7 @@
 package com.sun.bosen.mapper;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.sun.bosen.pojo.Rdrecord;
@@ -11,7 +13,7 @@ public interface MyRdrecordMapper {
 
 	void updatecOrderCode(int getiD);
 
-	int getRdrecordId(int getpOID);
+	int getRdrecordId(Map<String, Object> param);
 
 	Rdrecord isExists(Rdrecord data);
 }

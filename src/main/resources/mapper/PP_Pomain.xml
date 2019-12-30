@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.sun.bosen.mapper.PP_PomainMapper">    
+       
+        <resultMap type="PP_Pomain" id="PP_PomainBean">
+        	<id column="MainId" property="mainId"/>
+        	<result column="ID" property="id"/>
+        	<result column="fQuantity" property="fQuantity"/>
+        	<result column="fInQuantity" property="fInQuantity"/>
+        	<result column="cDefine22" property="productionCode"/>
+        	<result column="dStartDate" property="dStartDate"/>
+        	<result column="dEndDate" property="dEndDate"/>
+        	
+        	<association property="inventory" javaType="Inventory">
+        		<result column="cInvCode" property="cInvCode"/>
+        		<result column="cInvName" property="cInvName"/>
+        		<result column="cInvStd" property="cInvStd"/>
+        		
+        		<association property="computationUnit" javaType="ComputationUnit">
+        			<result column="cComunitCode" property="cComunitCode"/>
+        			<result column="cComunitName" property="cComunitName"/>
+        		</association>
+        	</association>      	
+        </resultMap>
+        
+        <select id="list" resultMap="PP_PomainBean">
+			select PP_POMain.MainId,PP_POMain.ID,PP_POMain.fQuantity,PP_POMain.fInQuantity,
+			Inventory.cInvCode,Inventory.cInvName,Inventory.cInvStd,
+        	convert(varchar(50),PP_POMain.dStartDate,23) as dStartDate,
+        	convert(varchar(50),PP_POMain.dEndDate,23) as dEndDate,
+        	ComputationUnit.cComunitName,ComputationUnit.cComunitCode,cDefine22 from PP_POMain
+        	left join Inventory on PP_POMain.cInvCode=Inventory.cInvCode
+        	left join ComputationUnit on Inventory.cComunitCode=ComputationUnit.cComunitCode
+        	<where>
+        		<if test="ID!=null">
+        			and PP_POMAin.ID=#{ID}
+        		</if>        	
+        	</where>
+        </select>
+        
+        <select id="updatefInQuantity">
+        
+        <choose>
+        	<when test="ID == null">
+        	update PP_POMain set fInQuantity=ISNULL(fInQuantity,0) + #{nowiReceivedQTY}
+        	
+        	
+        	<where>
+        		<if test="mainId!=null">
+        			and MainId=#{mainId}
+        		</if>
+        	</where>
+        </when>
+        
+        <when test="ID!=null">
+        update PP_POMain set fInQuantity=ISNULL(fInQuantity,0) + #{nowiReceivedQTY},cClose=
+        (select cClose from PP_ProductPO where ID=#(ID)),closeDate=#{closeDate}	
+        	
+        	<where>
+        		<if test="mainId!=null">
+        			and MainId=#{mainId}
+        		</if>
+        	</where>
+        </when>
+        </choose>
+        	
+        </select>
+        
+        <select id="getPp_pomain" parameterType="int" resultType="Rdrecords">
+        	select cInvCode,ID as  iMPoIds,cDefine22,cDefine25
+        	from PP_POMain
+        	<where>
+        		<if test="mainId!=null">
+        			and MainId=#{mainId}
+        		</if>
+        	</where>
+        </select>
+    </mapper>

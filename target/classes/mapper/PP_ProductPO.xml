@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.sun.bosen.mapper.PP_ProductPOMapper">    
+        <select id="list" resultType="PP_ProductPO">
+        select top 100 PP_ProductPO.ID,PP_ProductPO.cCode,
+            convert(varchar(50),PP_ProductPO.dDate,23) as dDate,
+            PP_ProductPO.cMemo from   
+            PP_ProductPO
+            <where>
+            	<if test="!bFinished">
+            		and PO_Podetails.iQuantity>PO_Podetails.iReceivedQTY
+            	</if>
+            	<if test="endId!=-1">
+            	    and PP_ProductPO.MainId &lt; #{endId}
+            	</if>
+            	
+            </where>
+            order by PP_ProductPO.ID desc
+        </select>
+        
+        <select id="getPp_Product" parameterType="int" resultType="Rdrecord">
+        	select cCode as cMPoCode,cDepCode,cPersonCode,cVerifier as cHandler,cMaker,ID as iproorderid from PP_ProductPO
+        	<where>
+        		<if test="id!=null">
+        			and ID=#{id}
+        		</if>
+        	</where>
+        </select>
+    </mapper>

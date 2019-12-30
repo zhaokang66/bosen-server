@@ -1,9 +1,8 @@
 package com.sun.bosen.service;
 
+import com.sun.bosen.pojo.PO_Podetails;
 import com.sun.bosen.pojo.Rdrecords;
 
 public interface MyRdrecordsService {
-
-	void addRerdcords(Rdrecords myRdrecordsList);
-
+	void updateRdrecords(Rdrecords myrdrecords);
 }

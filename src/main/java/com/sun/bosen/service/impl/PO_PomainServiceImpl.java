@@ -27,9 +27,5 @@ public class PO_PomainServiceImpl implements PO_PomainService {
 		return po_PomainMapper.list(param);
 	}
 
-	@Override
-	public Rdrecord getPo_Pomain(PO_Podetails data) {
-		return po_PomainMapper.getPo_Pomain(data);
-	}
 
 }

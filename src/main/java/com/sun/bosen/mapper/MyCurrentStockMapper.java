@@ -1,13 +1,15 @@
 package com.sun.bosen.mapper;
 
+import java.util.Map;
+
 import com.sun.bosen.pojo.PO_Podetails;
 
 public interface MyCurrentStockMapper {
 
-	int ifExists(PO_Podetails data);
+	int ifExists(Map<String,Object> param);
 
-	void updateCurrentStock(PO_Podetails po_Podetails);
+	void updateCurrentStock(Map<String,Object> param);
 
-	void addCurrentStock(PO_Podetails po_Podetails);
+	void addCurrentStock(Map<String,Object> param);
 
 }

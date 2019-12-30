@@ -3,26 +3,56 @@ package com.sun.bosen.pojo;
 public class Rdrecord {
 	private int iD;
 	private int bRdFlag = 1;
-	private String cVouchType = "01";
+	private String cVouchType;
 	private String cBusType;
 	private int iPurorderid;
-	private String cSource = "采购订单";
+	private String cSource;
 	private String cWhCode;
 	private String dDate;
 	private int startID = 0;//记录本次开始ID
 	private String cCode;
-	private String cRdCode = "101";//Rd_Style 表中自定义的账单类型
+	private String cRdCode;//Rd_Style 表中自定义的账单类型
 	private String cDepCode;
 	private String cPersonCode;
 	private String cPtCode;
 	private String cVenCode;
 	private String cOrderCode;
 	private String cMemo;
-	private int vT_ID = 27;
+	private int vT_ID;
 	private String cMaker;
 	private String cAccountPDate;
 	private String cHandler;
+	private String cMPoCode;
+	private String cPsPcode;//生产订单中父产品存货编码
+	private int iproorderid;
 	
+	public int getIproorderid() {
+		return iproorderid;
+	}
+	public void setIproorderid(int iproorderid) {
+		this.iproorderid = iproorderid;
+	}
+	public String getcPsPcode() {
+		return cPsPcode;
+	}
+	public void setcPsPcode(String cPsPcode) {
+		this.cPsPcode = cPsPcode;
+	}
+	public int getStartID() {
+		return startID;
+	}
+	public void setStartID(int startID) {
+		this.startID = startID;
+	}
+	public String getcMPoCode() {
+		return cMPoCode;
+	}
+	public void setcMPoCode(String cMPoCode) {
+		this.cMPoCode = cMPoCode;
+	}
+	public void setbRdFlag(int bRdFlag) {
+		this.bRdFlag = bRdFlag;
+	}
 	public void setiD(int iD) {
 		this.iD = iD;
 	}
@@ -67,6 +97,15 @@ public class Rdrecord {
 	}
 	public String getcSource() {
 		return cSource;
+	}
+	public void setcVouchType(String cVouchType) {
+		this.cVouchType = cVouchType;
+	}
+	public void setcSource(String cSource) {
+		this.cSource = cSource;
+	}
+	public void setcRdCode(String cRdCode) {
+		this.cRdCode = cRdCode;
 	}
 	public void setcWhCode(String cWhCode) {
 		this.cWhCode = cWhCode;

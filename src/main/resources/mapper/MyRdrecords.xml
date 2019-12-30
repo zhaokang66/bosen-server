@@ -5,6 +5,7 @@
  
     <mapper namespace="com.sun.bosen.mapper.MyRdrecordsMapper"> 
     	<select id="addRerdcords" parameterType="Rdrecords">
+    	        
     		insert into My_RdRecords (ID,cInvCode,iQuantity,
 			iUnitCost,iPrice,iAPrice,cDefine25,iPOsID,fACost,iTaxCost,iNQuantity,iTaxPrice,iTaxRate,iSum,iNum,cDefine22)
 			values (#{iD},#{cInvCode},#{iQuantity},#{iUnitCost},#{iPrice},#{iAPrice},#{cDefine25},

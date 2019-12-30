@@ -4,7 +4,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
     <mapper namespace="com.sun.bosen.mapper.MyRdrecordMapper"> 
-    	<select id="getLastInfo"  resultType="Rdrecord" parameterType="String">
+    	<select id="getLastInfo"  resultType="Rdrecord" parameterType="String"  flushCache="true">
     		select  top 1 ISNULL(ID,0) as iD,ISNULL(cCode,0)as cCode from My_Rdrecord 
     		<where>
 	  			<choose>
@@ -20,23 +20,36 @@
     	</select>   
        <select id="add" parameterType="Rdrecord">
 			
-
-insert into My_Rdrecord (bRdFlag, cVouchType,cBusType,cSource,cWhCode,cRdCode,cDepCode,cPersonCode,cPTCode,cVenCode,cMemo,VT_ID,dDate,cCode,cOrderCode,cMaker,ipurorderid,cAccountPDate)           
- values(#{bRdFlag},#{cVouchType},#{cBusType},#{cSource},#{cWhCode},#{cRdCode},#{cDepCode},#{cPersonCode},#{cPtCode},#{cVenCode},#{cMemo},#{vT_ID},#{dDate},#{cCode},#{cOrderCode},#{cMaker},#{iPurorderid},#{cAccountPDate})
+       
+insert into My_Rdrecord (bRdFlag, cVouchType,cBusType,cSource,cWhCode,cRdCode,cDepCode,cPersonCode,cPTCode,cVenCode,cMemo,VT_ID,dDate,cCode,cOrderCode,cMaker,ipurorderid,cAccountPDate,cMPoCode,cPsPcode,iproorderid)           
+ values(#{bRdFlag},#{cVouchType},#{cBusType},#{cSource},#{cWhCode},#{cRdCode},#{cDepCode},#{cPersonCode},#{cPtCode},#{cVenCode},#{cMemo},#{vT_ID},#{dDate},#{cCode},#{cOrderCode},#{cMaker},#{iPurorderid},#{cAccountPDate},
+ 	 #{cMPoCode},#{cPsPcode},(CASE WHEN #{iproorderid} != 0 then #{iproorderid} END)
+ )
 			
        </select>
        	
-       <select id="isExists" parameterType="Rdrecord" resultType="Rdrecord" >
+       <select id="isExists" parameterType="Rdrecord" resultType="Rdrecord"  flushCache="true">
+               
        		select ID as iD,cOrderCode from My_Rdrecord where cBusType=#{cBusType} and cWhCode=#{cWhCode} and cVenCode=#{cVenCode}
        		and cDepCode=#{cDepCode} and cPersonCode=#{cPersonCode} and cPTCode=#{cPtCode} and ID >= #{startID}
        </select>
        
        <select id="updatecOrderCode" parameterType="int">
+               
 			update My_Rdrecord set cOrderCode= ' ' where ID=#{id}
        </select>
        
-       <select id="getRdrecordId" parameterType="int" resultType="int">
-       select Top 1 ID from My_Rdrecord where ipurorderid=#{pOID} order by ID desc
+       <select id="getRdrecordId" parameterType="int" resultType="int"  flushCache="true">
+                
+       select Top 1 ID from My_Rdrecord 
+       <where>
+       			<if test="ID!=null">
+       				and iproorderid=#{ID} order by ID desc
+       			</if>
+       			<if test="pOID!=null">
+					and  ipurorderid=#{pOID} order by ID desc
+       			</if>
+       		</where>
        </select>
        
     </mapper>

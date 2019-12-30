@@ -4,15 +4,18 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
     <mapper namespace="com.sun.bosen.mapper.RdrecordsMapper"> 
-    	<select id="getLastInfoId"  resultType="int">
+    	<select id="getLastInfoId"  resultType="int"  flushCache="true">
+    	 
     		select Top 1 AutoID from Rdrecords order by AutoID desc
     	</select>
     	
     	<select id="addRerdcords" parameterType="Rdrecords">
+    	 
     		insert into RdRecords (AutoID,ID,cInvCode,iQuantity,
-			iUnitCost,iPrice,iAPrice,cDefine25,iPOsID,fACost,iTaxCost,iNQuantity,iTaxPrice,iTaxRate,iSum,iNum,cDefine22)
-			values (#{autoId},#{iD},#{cInvCode},#{iQuantity},#{iUnitCost},#{iPrice},#{iAPrice},#{cDefine25},
-			#{iPOsID},#{fACost},#{iTaxCost},#{iNQuantity},#{iTaxPrice},#{iTaxRate},#{iSum},0,#{cDefine22})
+			iUnitCost,iPrice,iAPrice,cDefine25,iPOsID,fACost,iTaxCost,iNQuantity,iTaxPrice,iTaxRate,iSum,iNum,
+			cDefine22,YCsid,sosid,cBVencode,iNNum,cPosition)
+			values (#{autoId},#{iD},#{cInvCode},#{iQuantity},Convert(decimal(18,4),#{iUnitCost}),Convert(decimal(18,2),#{iPrice}),Convert(decimal(18,2),#{iAPrice}),#{cDefine25},
+			#{iPOsID},Convert(decimal(18,4),#{fACost}),#{iTaxCost},#{iNQuantity},Convert(decimal(18,2),#{iTaxPrice}),#{iTaxRate},#{iSum},0,#{cDefine22},0,0,' ',0,' ')
     		
     	</select>
     </mapper>

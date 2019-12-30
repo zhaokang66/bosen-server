@@ -8,5 +8,6 @@ import com.sun.bosen.pojo.Rdrecord;
 
 public interface PO_PomainService{
 	List<PO_Pomain> list(boolean bFinished,int endId);
-	Rdrecord getPo_Pomain(PO_Podetails data);
+
+
 }
