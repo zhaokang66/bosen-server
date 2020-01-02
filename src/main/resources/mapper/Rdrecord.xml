@@ -22,9 +22,9 @@
        <select id="add" parameterType="Rdrecord">
 			
  
-insert into Rdrecord (ID,bRdFlag, cVouchType,cBusType,cSource,cWhCode,cRdCode,cDepCode,cPersonCode,cPTCode,cVenCode,cMemo,VT_ID,dDate,cCode,cOrderCode,cMaker,ipurorderid,cAccountPDate,cMPoCode,cPsPcode,iproorderid)           
- values(#{iD},#{bRdFlag},#{cVouchType},#{cBusType},#{cSource},#{cWhCode},#{cRdCode},#{cDepCode},#{cPersonCode},#{cPtCode},#{cVenCode},#{cMemo},#{vT_ID},#{dDate},#{cCode},#{cOrderCode},#{cMaker},#{iPurorderid},#{cAccountPDate},
- #{cMPoCode},#{cPsPcode},(CASE WHEN #{iproorderid} != 0 then #{iproorderid} END))
+insert into Rdrecord (ID,bRdFlag, cVouchType,cBusType,cSource,cWhCode,cRdCode,cDepCode,cPersonCode,cPTCode,cVenCode,cMemo,VT_ID,dDate,cCode,cOrderCode,cMaker,ipurorderid,cAccountPDate,cMPoCode,cPsPcode,iproorderid,dVeriDate,cHandler,cDefine16,iMQuantity)           
+ values(#{iD},#{bRdFlag},#{cVouchType},#{cBusType},#{cSource},#{cWhCode},#{cRdCode},#{cDepCode},#{cPersonCode},#{cPtCode},#{cVenCode},#{cMemo},#{vT_ID},#{dDate},#{cCode},#{cOrderCode},#{cMaker},(CASE WHEN #{iPurorderid} != 0 then #{iPurorderid} END),#{cAccountPDate},
+ #{cMPoCode},#{cPsPcode},(CASE WHEN #{iproorderid} != 0 then #{iproorderid} END),#{dVeriDate},#{cHandler},#{cDefine16},#{iMQuantity})
 			
        </select>
        	

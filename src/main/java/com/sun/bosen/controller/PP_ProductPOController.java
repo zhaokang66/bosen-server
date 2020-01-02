@@ -58,7 +58,5 @@ public class PP_ProductPOController {
 	public String submitpp_Pomain(@RequestBody PP_Pomain[] data) {
 		System.out.println(JSONObject.toJSONString(data));
 		return birthproductionWarehousingService.add(data);
-	}
-	
-	
+	}	
 }

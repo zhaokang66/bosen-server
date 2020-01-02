@@ -57,7 +57,7 @@
         
         <when test="ID!=null">
         update PP_POMain set fInQuantity=ISNULL(fInQuantity,0) + #{nowiReceivedQTY},cClose=
-        (select cClose from PP_ProductPO where ID=#(ID)),closeDate=#{closeDate}	
+        (select cClose from PP_ProductPO where ID=#{ID}),closeDate=#{closeDate}	
         	
         	<where>
         		<if test="mainId!=null">
@@ -70,7 +70,7 @@
         </select>
         
         <select id="getPp_pomain" parameterType="int" resultType="Rdrecords">
-        	select cInvCode,ID as  iMPoIds,cDefine22,cDefine25
+        	select cInvCode,ID as  iMPoIds,cDefine22,cDefine25,cDefine26,cDefine27
         	from PP_POMain
         	<where>
         		<if test="mainId!=null">

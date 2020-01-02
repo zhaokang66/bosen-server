@@ -25,7 +25,28 @@ public class Rdrecord {
 	private String cMPoCode;
 	private String cPsPcode;//生产订单中父产品存货编码
 	private int iproorderid;
+	private String dVeriDate;
+	private String cDefine16;
+	private String iMQuantity;
 	
+	public String getiMQuantity() {
+		return iMQuantity;
+	}
+	public void setiMQuantity(String iMQuantity) {
+		this.iMQuantity = iMQuantity;
+	}
+	public String getcDefine16() {
+		return cDefine16;
+	}
+	public void setcDefine16(String cDefine16) {
+		this.cDefine16 = cDefine16;
+	}
+	public String getdVeriDate() {
+		return dVeriDate;
+	}
+	public void setdVeriDate(String dVeriDate) {
+		this.dVeriDate = dVeriDate;
+	}
 	public int getIproorderid() {
 		return iproorderid;
 	}

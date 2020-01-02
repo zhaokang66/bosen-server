@@ -17,7 +17,28 @@ public class Rdrecords {
 	private float iTaxRate;
 	private float iSum;
 	private String cDefine22;
+	private int iMPoIds;
+	private String cDefine26;
+	private String cDefine27;
 	
+	public String getcDefine27() {
+		return cDefine27;
+	}
+	public void setcDefine27(String cDefine27) {
+		this.cDefine27 = cDefine27;
+	}
+	public String getcDefine26() {
+		return cDefine26;
+	}
+	public void setcDefine26(String cDefine26) {
+		this.cDefine26 = cDefine26;
+	}
+	public int getiMPoIds() {
+		return iMPoIds;
+	}
+	public void setiMPoIds(int iMPoIds) {
+		this.iMPoIds = iMPoIds;
+	}
 	public String getcDefine22() {
 		return cDefine22;
 	}

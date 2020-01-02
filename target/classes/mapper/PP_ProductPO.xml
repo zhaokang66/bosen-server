@@ -14,7 +14,7 @@
             		and PO_Podetails.iQuantity>PO_Podetails.iReceivedQTY
             	</if>
             	<if test="endId!=-1">
-            	    and PP_ProductPO.MainId &lt; #{endId}
+            	    and PP_ProductPO.ID &lt; #{endId}
             	</if>
             	
             </where>
@@ -22,7 +22,7 @@
         </select>
         
         <select id="getPp_Product" parameterType="int" resultType="Rdrecord">
-        	select cCode as cMPoCode,cDepCode,cPersonCode,cVerifier as cHandler,cMaker,ID as iproorderid from PP_ProductPO
+        	select cCode as cMPoCode,cVerifier as cHandler,cMemo,cDefine16,dCheckDate as dVeriDate,cDepCode,cPersonCode,cVerifier as cHandler,cMaker,ID as iproorderid from PP_ProductPO
         	<where>
         		<if test="id!=null">
         			and ID=#{id}

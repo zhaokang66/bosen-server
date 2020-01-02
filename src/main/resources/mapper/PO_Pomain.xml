@@ -35,7 +35,7 @@
         </select>
         
         <select id="getPo_Pomain" resultType="Rdrecord" parameterType="int">
-		SELECT cPOID as cOrderCode,cVenCode ,cPersonCode,cDepCode,cPTCode as cPtCode,
+		SELECT cPOID as cOrderCode,cVenCode ,cDefine16,cPersonCode,cDepCode,cPTCode as cPtCode,
 		cMemo,cMaker,POID as iPurorderid,cBusType ,cAccountPDate,cVerifier as cHandler FROM PO_Pomain
         	<where >
         		<if test="id!=null">

@@ -35,7 +35,6 @@ public class RdrecordServiceImpl implements RdrecordService{
 	PO_PodetailsService po_PodetailsService;
 	@Autowired
 	CurrentStockService currentStockService;
-
 	@Autowired
 	RdrecordsService rdrecordsService;
 	@Autowired

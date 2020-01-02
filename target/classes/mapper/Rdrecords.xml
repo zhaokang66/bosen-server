@@ -13,9 +13,11 @@
     	 
     		insert into RdRecords (AutoID,ID,cInvCode,iQuantity,
 			iUnitCost,iPrice,iAPrice,cDefine25,iPOsID,fACost,iTaxCost,iNQuantity,iTaxPrice,iTaxRate,iSum,iNum,
-			cDefine22,YCsid,sosid,cBVencode,iNNum,cPosition)
+			cDefine22,YCsid,sosid,cBVencode,iNNum,cPosition,iMPoIds,cDefine26,cDefine27)
 			values (#{autoId},#{iD},#{cInvCode},#{iQuantity},Convert(decimal(18,4),#{iUnitCost}),Convert(decimal(18,2),#{iPrice}),Convert(decimal(18,2),#{iAPrice}),#{cDefine25},
-			#{iPOsID},Convert(decimal(18,4),#{fACost}),#{iTaxCost},#{iNQuantity},Convert(decimal(18,2),#{iTaxPrice}),#{iTaxRate},#{iSum},0,#{cDefine22},0,0,' ',0,' ')
+			#{iPOsID},Convert(decimal(18,4),#{fACost}),#{iTaxCost},#{iNQuantity},Convert(decimal(18,2),#{iTaxPrice}),#{iTaxRate},#{iSum},0,#{cDefine22},0,0,' ',0,' ',
+			(CASE WHEN #{iMPoIds} != 0 then #{iMPoIds} END),#{cDefine26},#{cDefine27}
+			)
     		
     	</select>
     </mapper>
