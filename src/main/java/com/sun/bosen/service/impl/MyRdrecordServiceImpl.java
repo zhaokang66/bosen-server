@@ -30,6 +30,7 @@ public class MyRdrecordServiceImpl implements MyRdrecordService{
 	public int[] updateRdrecord(Rdrecord myRdrecord,int i) {
 		int[] flag = {0,0};
 		Rdrecord isExistsRdrecord = myRdrecordMapper.isExists(myRdrecord);
+		System.out.println(JSONObject.toJSONString(isExistsRdrecord));
 		if (i == 0 || isExistsRdrecord == null) {
 			// 插入当前时间作为入库时间
 			Date date = new Date();

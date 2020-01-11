@@ -5,6 +5,14 @@ public class PP_ProductPO {
 	private String cCode;
 	private String dDate;
 	private String cMemo;
+	private String cDepName;
+	
+	public String getcDepName() {
+		return cDepName;
+	}
+	public void setcDepName(String cDepName) {
+		this.cDepName = cDepName;
+	}
 	public int getId() {
 		return id;
 	}

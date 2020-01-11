@@ -8,7 +8,7 @@ import com.sun.bosen.pojo.Rdrecords;
 
 
 public interface PO_PodetailsService {
-	List<PO_Podetails> list(int pOID);
+	List<PO_Podetails> list(int pOID, boolean bFinished);
 	
 	void updateiReceivedQTY(PO_Podetails data);
 

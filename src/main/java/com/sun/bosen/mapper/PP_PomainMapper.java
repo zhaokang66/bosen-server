@@ -14,7 +14,9 @@ public interface PP_PomainMapper {
 
 	void updatefInQuantity(Map<String, Object> param);
 
-	Rdrecords getPp_pomain(@Param(value="mainId") int mainId);
+	Rdrecords getPp_pomain(Map<String, Object> param);
+
+	int getId(@Param(value="mainId")int mainId);
 
 }
 				

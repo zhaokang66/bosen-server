@@ -15,22 +15,44 @@ public class PP_Pomain {
 	private Inventory inventory;
 	private float nowiReceivedQTY;
 	private String cWhCode;
-	private float iprice;//单价
-	private float price;//金额
-	public float getIprice() {
-		return iprice;
+	private float iUnitCost;//单价
+	private float iPrice;//金额
+	private String cCode;
+	private String cMaker;
+	private String cDepCode;
+
+	public String getcMaker() {
+		return cMaker;
 	}
-	public void setIprice(float iprice) {
-		this.iprice = iprice;
+	public void setcMaker(String cMaker) {
+		this.cMaker = cMaker;
 	}
-	public float getPrice() {
-		return price;
+	public String getcDepCode() {
+		return cDepCode;
 	}
-	public void setPrice(float price) {
-		this.price = price;
+	public void setcDepCode(String cDepCode) {
+		this.cDepCode = cDepCode;
+	}
+	public String getcCode() {
+		return cCode;
+	}
+	public void setcCode(String cCode) {
+		this.cCode = cCode;
 	}
 	public float getNowiReceivedQTY() {
 		return nowiReceivedQTY;
+	}
+	public float getiUnitCost() {
+		return iUnitCost;
+	}
+	public void setiUnitCost(float iUnitCost) {
+		this.iUnitCost = iUnitCost;
+	}
+	public float getiPrice() {
+		return iPrice;
+	}
+	public void setiPrice(float iPrice) {
+		this.iPrice = iPrice;
 	}
 	public void setNowiReceivedQTY(float nowiReceivedQTY) {
 		this.nowiReceivedQTY = nowiReceivedQTY;

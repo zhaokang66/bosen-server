@@ -17,14 +17,14 @@
         </resultMap>
         <select id="list" resultMap="PO_PomainBean">
         
-        	select top 100 PO_Pomain.POID,PO_Pomain.cPOID,
+        	select distinct top 100 PO_Pomain.POID,PO_Pomain.cPOID,
             convert(varchar(50),PO_Pomain.dPoDate,23) as dPoDate,
             PO_Pomain.cMemo,Vendor.cVenCode,Vendor.cVenName from   
             PO_Pomain left join  Vendor on  PO_Pomain.cVenCode=Vendor.cVenCode
             left join PO_Podetails on PO_Pomain.POID=PO_Podetails.POID
             <where>
             	<if test="!bFinished">
-            		and PO_Podetails.iQuantity>PO_Podetails.iReceivedQTY
+            		and PO_Podetails.iQuantity>ISNULL(PO_Podetails.iReceivedQTY,0)
             	</if>
             	<if test="endId!=-1">
             	    and PO_Pomain.POID &lt; #{endId}

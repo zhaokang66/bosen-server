@@ -2,22 +2,36 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- 
-    <mapper namespace="com.sun.bosen.mapper.RdrecordsMapper"> 
-    	<select id="getLastInfoId"  resultType="int"  flushCache="true">
-    	 
-    		select Top 1 AutoID from Rdrecords order by AutoID desc
-    	</select>
-    	
-    	<select id="addRerdcords" parameterType="Rdrecords">
-    	 
-    		insert into RdRecords (AutoID,ID,cInvCode,iQuantity,
+
+<mapper namespace="com.sun.bosen.mapper.RdrecordsMapper">
+	<select id="getLastInfoId" resultType="int" flushCache="true">
+
+		select Top 1 AutoID from Rdrecords order by AutoID desc
+	</select>
+
+	<select id="addRerdcords" parameterType="Rdrecords">
+
+		insert into RdRecords (
+			AutoID,ID,cInvCode,iQuantity,
 			iUnitCost,iPrice,iAPrice,cDefine25,iPOsID,fACost,iTaxCost,iNQuantity,iTaxPrice,iTaxRate,iSum,iNum,
-			cDefine22,YCsid,sosid,cBVencode,iNNum,cPosition,iMPoIds,cDefine26,cDefine27)
-			values (#{autoId},#{iD},#{cInvCode},#{iQuantity},Convert(decimal(18,4),#{iUnitCost}),Convert(decimal(18,2),#{iPrice}),Convert(decimal(18,2),#{iAPrice}),#{cDefine25},
-			#{iPOsID},Convert(decimal(18,4),#{fACost}),#{iTaxCost},#{iNQuantity},Convert(decimal(18,2),#{iTaxPrice}),#{iTaxRate},#{iSum},0,#{cDefine22},0,0,' ',0,' ',
-			(CASE WHEN #{iMPoIds} != 0 then #{iMPoIds} END),#{cDefine26},#{cDefine27}
-			)
-    		
-    	</select>
-    </mapper>
+			cDefine22,YCsid,sosid,cBVencode,iNNum,cPosition,iMPoIds,cDefine26,cDefine27,cCBGJDXCode,ccbgjdxname
+		)
+		values(
+			#{autoId},#{iD},#{cInvCode},#{iQuantity},Convert(decimal(18,4),
+			#{iUnitCost}),Convert(decimal(18,2),#{iPrice}),
+			(CASE WHEN Convert(decimal(18,2),#{iAPrice}) != 0 then Convert(decimal(18,2),#{iAPrice}) END),
+			#{cDefine25},
+			(CASE WHEN #{iPOsID} != 0 then #{iPOsID} END),
+			(CASE WHEN Convert(decimal(18,4),#{fACost}) != 0 then Convert(decimal(18,4),#{fACost}) END),
+			(CASE WHEN Convert(decimal(18,2),#{iTaxCost}) != 0 then Convert(decimal(18,2),#{iTaxCost}) END),
+			#{iNQuantity},
+			(CASE WHEN Convert(decimal(18,2),#{iTaxPrice}) != 0 then Convert(decimal(18,2),#{iTaxPrice}) END),
+			(CASE WHEN Convert(decimal(18,2),#{iTaxRate}) != 0 then Convert(decimal(18,2),#{iTaxRate}) END),
+			(CASE WHEN Convert(decimal(18,2),#{iSum}) != 0 then Convert(decimal(18,2),#{iSum}) END),
+			0,#{cDefine22},0,0,' ',0,' ',
+			(CASE WHEN #{iMPoIds} != 0 then #{iMPoIds} END),
+			ISNULL(#{cDefine26},0),ISNULL(#{cDefine27},0),#{cCBGJDXCode},#{ccbgjdxname}
+		)
+
+	</select>
+</mapper>

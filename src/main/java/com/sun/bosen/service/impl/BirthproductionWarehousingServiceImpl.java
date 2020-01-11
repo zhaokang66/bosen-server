@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.sun.bosen.mapper.MyRdrecordMapper;
+import com.sun.bosen.mapper.PP_PomainMapper;
 import com.sun.bosen.mapper.PP_ProductPOMapper;
 import com.sun.bosen.mapper.RdrecordMapper;
 import com.sun.bosen.mapper.RdrecordsMapper;
@@ -29,8 +30,7 @@ import com.sun.bosen.service.RdrecordsService;
 
 @Service
 public class BirthproductionWarehousingServiceImpl implements BirthproductionWarehousingService {
-	private int rdrecordStartID;
-	private int myRdrecordStartID;
+
 	@Autowired
 	PP_PomainService pp_PomainService;
 	@Autowired
@@ -53,12 +53,20 @@ public class BirthproductionWarehousingServiceImpl implements BirthproductionWar
 	MyRdrecordsService myRdrecordsService;
 	@Autowired
 	MyRdrecordMapper myRdrecordMapper;
+	@Autowired
+	PP_PomainMapper pp_PomainMapper;
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_UNCOMMITTED, rollbackForClassName = "Exception")
 	public String add(PP_Pomain[] data) {
-		int[] flag1 = { 0, 0 };
-		int[] flag2 = { 0, 0 };
+
+	
+		Rdrecord rdrecord = setRdrecordValue(data, "Rdrecord");
+		rdrecordService.updateRdrecord(rdrecord, 0);
+
+		Rdrecord myRdrecord = setRdrecordValue(data, "MyRdrecord");
+		myRdrecordService.updateRdrecord(myRdrecord, 0);
+		
 		for (int i = 0; i < data.length; i++) {
 			// 更新入库数量
 			pp_PomainService.updatefInQuantity(data[i]);
@@ -69,18 +77,11 @@ public class BirthproductionWarehousingServiceImpl implements BirthproductionWar
 			myCurrentStockService.updateCurrentStock(data[i].getcWhCode(), data[i].getInventory().getcInvCode(),
 					data[i].getNowiReceivedQTY());
 
-			// 更新Rdrecord
-			Rdrecord rdrecord = setRdrecordValue(data[i], i, "Rdrecord");
-			flag1 = rdrecordService.updateRdrecord(rdrecord, i);
 
-			Rdrecord myRdrecord = setRdrecordValue(data[i], i, "MyRdrecord");
-			flag2 = myRdrecordService.updateRdrecord(myRdrecord, i);
-
-			// 更新Rdrecords
-			Rdrecords rdrecords = setRdrecordsValue(data[i], flag1, "Rdrecords");
+			Rdrecords rdrecords = setRdrecordsValue(data[i], "Rdrecords");
 			rdrecordsService.updateRdrecords(rdrecords);
 
-			Rdrecords myRdrecords = setRdrecordsValue(data[i], flag2, "MyRdrecords");
+			Rdrecords myRdrecords = setRdrecordsValue(data[i], "MyRdrecords");
 			myRdrecordsService.updateRdrecords(myRdrecords);
 
 			rdrecordService.updateUfs();
@@ -88,16 +89,39 @@ public class BirthproductionWarehousingServiceImpl implements BirthproductionWar
 		return "添加成功";
 	}
 
-	private Rdrecord setRdrecordValue(PP_Pomain data, int i, String object) {
-		Rdrecord rdrecord = pp_ProductPOMapper.getPp_Product(data.getId());
+	private Rdrecord setRdrecordValue(PP_Pomain[] data, String object) {
+
+		Rdrecord rdrecord = new Rdrecord();
+		String cCode = data[0].getcCode();
+		int isExists = 0;
+		int minMainId = data[0].getMainId();
+		
+		for (int i = 1; i < data.length; i++) {
+			if (!data[i].getcCode().equals(cCode)) {
+				isExists = 1;
+			}
+			if (data[i].getMainId() < minMainId) {
+				minMainId = data[i].getMainId();
+			}
+		}
+		if (isExists == 0) {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("ppInMainId", minMainId);
+			rdrecord = pp_ProductPOMapper.getPp_Product(param);
+		}
+		
+		
 		rdrecord.setcBusType("成品入库");
 		rdrecord.setcSource("生产订单");
 		rdrecord.setcVouchType("10");
 		rdrecord.setcRdCode("102");
 		rdrecord.setvT_ID(63);
-		rdrecord.setcPsPcode(data.getInventory().getcInvCode());
-		rdrecord.setcWhCode(data.getcWhCode());
-		rdrecord.setiMQuantity("0");
+		rdrecord.setiMQuantity(0);
+		rdrecord.setcWhCode(data[0].getcWhCode());
+		rdrecord.setcDepCode(data[0].getcDepCode());
+		rdrecord.setcMaker(data[0].getcMaker());
+		rdrecord.setcDefine16("0");
+		
 
 		Rdrecord infoID = new Rdrecord();
 		if (object.equals("Rdrecord")) {
@@ -115,10 +139,6 @@ public class BirthproductionWarehousingServiceImpl implements BirthproductionWar
 					rdrecord.setcCode(String.format("%010d", Integer.parseInt(info.getcCode()) + 1));
 				}
 			}
-			if (i == 0) {
-				rdrecordStartID = rdrecord.getiD();
-			}
-			rdrecord.setstartID(rdrecordStartID);
 		} else if (object.equals("MyRdrecord")) {
 			infoID = myRdrecordMapper.getLastInfo(null);
 			if (infoID == null) {
@@ -130,30 +150,31 @@ public class BirthproductionWarehousingServiceImpl implements BirthproductionWar
 				if (info == null) {
 					System.out.println("当前查询结果为空！");
 					rdrecord.setcCode(String.format("%010d", 1));
-				} else {
+				} else { 
 					rdrecord.setcCode(String.format("%010d", Integer.parseInt(info.getcCode()) + 1));
 				}
 			}
-			if (i == 0) {
-				myRdrecordStartID = rdrecord.getiD();
-			}
-			rdrecord.setstartID(myRdrecordStartID);
+
 		}
+		rdrecord.setStartID(rdrecord.getiD());
+		System.out.println("这个是Rdrecord数据");
 		System.out.println(JSONObject.toJSONString(rdrecord, SerializerFeature.WriteMapNullValue));
 		return rdrecord;
 	}
 
-	private Rdrecords setRdrecordsValue(PP_Pomain data, int[] flag, String object) {
-		Rdrecords rdrecords = pp_PomainService.getPp_pomain(data.getMainId());
+	private Rdrecords setRdrecordsValue(PP_Pomain data, String object) {
+		Map<String, Object> param1 = new HashMap<String, Object>();
+		param1.put("mainId", data.getMainId());
+		Rdrecords rdrecords = pp_PomainMapper.getPp_pomain(param1);
 		rdrecords.setiQuantity(data.getNowiReceivedQTY());
 //		rdrecords.setiNQuantity(data.getNowiReceivedQTY());
-		rdrecords.setiUnitCost(data.getIprice());
-		rdrecords.setiPrice(data.getPrice());
+		rdrecords.setiUnitCost(data.getiUnitCost());
+		rdrecords.setiPrice(data.getiPrice());
 		rdrecords.setiMPoIds(data.getMainId());
 		if (!data.getProductionCode().equals(null)) {
 			rdrecords.setcDefine22(data.getProductionCode());
 		}
-		if (flag[0] == 1) {
+	
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("ID", data.getId());
 			if (object.equals("Rdrecords")) {
@@ -162,10 +183,7 @@ public class BirthproductionWarehousingServiceImpl implements BirthproductionWar
 			} else if (object.equals("MyRdrecords")) {
 				rdrecords.setiD(myRdrecordService.getRdrecordId(param));
 			}
-		} else {
-			rdrecords.setiD(flag[1]);
-			rdrecords.setautoId(rdrecordsMapper.getLastInfoId() + 1);
-		}
+		System.out.println("这个是Rdrecords数据");
 		System.out.println(JSONObject.toJSONString(rdrecords, SerializerFeature.WriteMapNullValue));
 		return rdrecords;
 	}

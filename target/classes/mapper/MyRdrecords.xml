@@ -2,14 +2,28 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- 
-    <mapper namespace="com.sun.bosen.mapper.MyRdrecordsMapper"> 
-    	<select id="addRerdcords" parameterType="Rdrecords">
-    	        
-    		insert into My_RdRecords (ID,cInvCode,iQuantity,
-			iUnitCost,iPrice,iAPrice,cDefine25,iPOsID,fACost,iTaxCost,iNQuantity,iTaxPrice,iTaxRate,iSum,iNum,cDefine22)
-			values (#{iD},#{cInvCode},#{iQuantity},#{iUnitCost},#{iPrice},#{iAPrice},#{cDefine25},
-			#{iPOsID},#{fACost},#{iTaxCost},#{iNQuantity},#{iTaxPrice},#{iTaxRate},#{iSum},0,#{cDefine22})
-    		
-    	</select>
-    </mapper>
+
+<mapper namespace="com.sun.bosen.mapper.MyRdrecordsMapper">
+	<select id="addRerdcords" parameterType="Rdrecords">
+
+		insert into My_RdRecords (ID,cInvCode,iQuantity,
+		iUnitCost,iPrice,iAPrice,cDefine25,iPOsID,fACost,iTaxCost,iNQuantity,iTaxPrice,iTaxRate,iSum,iNum,
+		cDefine22,YCsid,sosid,cBVencode,iNNum,cPosition,iMPoIds,cDefine26,cDefine27,cCBGJDXCode,ccbgjdxname
+		)
+		values
+		(#{iD},#{cInvCode},#{iQuantity},Convert(decimal(18,4),#{iUnitCost}),Convert(decimal(18,2),#{iPrice}),(CASE
+		WHEN Convert(decimal(18,2),#{iAPrice}) != 0 then
+		Convert(decimal(18,2),#{iAPrice}) END),#{cDefine25},
+		(CASE WHEN #{iPOsID} != 0 then #{iPOsID} END),(CASE WHEN
+		Convert(decimal(18,4),#{fACost}) != 0 then
+		Convert(decimal(18,4),#{fACost}) END),(CASE WHEN #{iTaxCost} != 0 then
+		#{iTaxCost} END),#{iNQuantity},(CASE WHEN
+		Convert(decimal(18,2),#{iTaxPrice}) != 0 then
+		Convert(decimal(18,2),#{iTaxPrice}) END),(CASE WHEN #{iTaxRate} != 0
+		then #{iTaxRate} END),(CASE WHEN #{iSum} != 0 then #{iSum}
+		END),0,#{cDefine22},0,0,' ',0,' ',
+		(CASE WHEN #{iMPoIds} != 0 then #{iMPoIds}
+		END),ISNULL(#{cDefine26},0),ISNULL(#{cDefine27},0),#{cCBGJDXCode},#{ccbgjdxname}
+		)
+	</select>
+</mapper>

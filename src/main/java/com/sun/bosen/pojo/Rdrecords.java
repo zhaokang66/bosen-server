@@ -20,7 +20,21 @@ public class Rdrecords {
 	private int iMPoIds;
 	private String cDefine26;
 	private String cDefine27;
+	private String cCBGJDXCode;
+	private String ccbgjdxname;
 	
+	public String getcCBGJDXCode() {
+		return cCBGJDXCode;
+	}
+	public void setcCBGJDXCode(String cCBGJDXCode) {
+		this.cCBGJDXCode = cCBGJDXCode;
+	}
+	public String getCcbgjdxname() {
+		return ccbgjdxname;
+	}
+	public void setCcbgjdxname(String ccbgjdxname) {
+		this.ccbgjdxname = ccbgjdxname;
+	}
 	public String getcDefine27() {
 		return cDefine27;
 	}

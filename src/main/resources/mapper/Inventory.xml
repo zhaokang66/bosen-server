@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sun.bosen.mapper.InventoryMapper">
+	<resultMap type="Inventory" id="InventoryBean">
+		<result column="cInvCode" property="cInvCode" />
+		<result column="cInvName" property="cInvName" />
+		<result column="cInvAddCode" property="cInvAddCode" />
+		<result column="cInvStd" property="cInvStd" />
+
+
+		<association property="computationUnit" javaType="ComputationUnit">
+			<result column="cComunitName" property="cComunitName" />
+		</association>
+
+	</resultMap>
+
+	<select id="list" resultMap="InventoryBean">
+		select
+		Inventory.cInvCode,
+		Inventory.cInvName,
+		Inventory.cInvAddCode,
+		Inventory.cInvStd,
+		ComputationUnit.cComunitName
+		from Inventory
+		left join ComputationUnit on
+		Inventory.cComunitCode=ComputationUnit.cComunitCode
+
+		<where>
+			<if test="cInvCCode!=null">
+				and cInvCCode=#{cInvCCode}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getInventory" resultMap="InventoryBean">
+		select
+		Inventory.cInvCode,
+		Inventory.cInvName,
+		Inventory.cInvAddCode,
+		Inventory.cInvStd,
+		ComputationUnit.cComunitName
+		from Inventory
+		left join ComputationUnit on
+		Inventory.cComunitCode=ComputationUnit.cComunitCode
+
+		<where>
+			<if test="cInvCode!=null">
+				and cInvCode=#{cInvCode}
+			</if>
+		</where>
+	</select>
+
+
+</mapper>

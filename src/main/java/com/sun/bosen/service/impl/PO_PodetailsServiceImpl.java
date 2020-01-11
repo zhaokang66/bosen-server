@@ -22,9 +22,10 @@ public class PO_PodetailsServiceImpl implements  PO_PodetailsService {
 	PO_PodetailsMapper po_PodetailsMapper;
 	
 	@Override
-	public List<PO_Podetails> list(int pOID) {
+	public List<PO_Podetails> list(int pOID, boolean bFinished) {
 		Map<String, Object> param= new HashMap<String, Object>();
-		param.put("pOID", pOID);		
+		param.put("pOID", pOID);	
+		param.put("bFinished", bFinished);	
 		return po_PodetailsMapper.list(param);
 	}
 	@Override

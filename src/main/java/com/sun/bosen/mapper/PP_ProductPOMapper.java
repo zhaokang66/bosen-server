@@ -12,6 +12,6 @@ public interface PP_ProductPOMapper {
 
 	List<PP_ProductPO> list(Map<String, Object> param);
 
-	Rdrecord getPp_Product(@Param(value="id") int id);
+	Rdrecord getPp_Product(Map<String, Object> param);
 
 }

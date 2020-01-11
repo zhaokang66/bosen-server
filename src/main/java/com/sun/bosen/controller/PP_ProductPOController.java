@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
+import com.sun.bosen.pojo.PP_Podetails;
 import com.sun.bosen.pojo.PP_Pomain;
 import com.sun.bosen.pojo.PP_ProductPO;
 import com.sun.bosen.service.BirthPurchaseWarehousingService;
 import com.sun.bosen.service.BirthproductionWarehousingService;
+import com.sun.bosen.service.BitrhProductionOutStockService;
+import com.sun.bosen.service.PP_PodetailsService;
 import com.sun.bosen.service.PP_PomainService;
 import com.sun.bosen.service.PP_ProductPOService;
 
@@ -34,21 +37,33 @@ public class PP_ProductPOController {
 	PP_PomainService pp_PomainService;
 	@Autowired
 	BirthproductionWarehousingService birthproductionWarehousingService;
+	@Autowired
+	PP_PodetailsService pp_PodetailsService;
+	@Autowired
+	BitrhProductionOutStockService BitrhProductionOutStockService;
 	
 	@ResponseBody
 	@RequestMapping("/listPP_ProductPO")
-	public List<PP_ProductPO> listPP_ProductPO(boolean bFinished, int endId, HttpServletResponse req, HttpServletRequest res)
+	public List<PP_ProductPO> listPP_ProductPO(boolean bFinished, int endId, boolean detailsFinshed, HttpServletResponse req, HttpServletRequest res)
 			throws UnsupportedEncodingException {
-		List<PP_ProductPO> list = pp_ProductPOService.list(bFinished, endId);
+		List<PP_ProductPO> list = pp_ProductPOService.list(bFinished, endId, detailsFinshed);
 		System.out.println(JSONObject.toJSONString(list));
 		return list;
 	}
 	
 	@ResponseBody
 	@RequestMapping("/listPP_Pomain")
-	public List<PP_Pomain> listPP_Pomain(Integer ID) {
+	public List<PP_Pomain> listPP_Pomain(Integer ID, boolean bFinished, boolean detailsFinshed) {
 		System.out.println(ID);
-		List<PP_Pomain> list = pp_PomainService.list(ID);
+		List<PP_Pomain> list = pp_PomainService.list(ID, bFinished, detailsFinshed);
+		System.out.println(JSONObject.toJSONString(list));
+		return list;
+	}
+	@ResponseBody
+	@RequestMapping("/listPP_Podetails")
+	public List<PP_Podetails> listPP_Podetails(Integer mainId) {
+		System.out.println(mainId);
+		List<PP_Podetails> list = pp_PodetailsService.list(mainId);
 		System.out.println(JSONObject.toJSONString(list));
 		return list;
 	}
@@ -58,5 +73,13 @@ public class PP_ProductPOController {
 	public String submitpp_Pomain(@RequestBody PP_Pomain[] data) {
 		System.out.println(JSONObject.toJSONString(data));
 		return birthproductionWarehousingService.add(data);
-	}	
+	}
+	
+	@ResponseBody
+	@RequestMapping("/submitpp_Podetails")
+	public String submitpp_Podetails(@RequestBody PP_Podetails[] data) {
+		System.out.println(JSONObject.toJSONString(data));
+		return BitrhProductionOutStockService.add(data);
+	}
+	
 }

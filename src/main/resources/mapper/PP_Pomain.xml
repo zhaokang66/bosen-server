@@ -13,11 +13,14 @@
         	<result column="cDefine22" property="productionCode"/>
         	<result column="dStartDate" property="dStartDate"/>
         	<result column="dEndDate" property="dEndDate"/>
-        	
+        	<result column="cCode" property="cCode"/>
+        	<result column="cMarker" property="cMarker"/>
+        	<result column="cDepCode" property="cDepCode"/>
         	<association property="inventory" javaType="Inventory">
         		<result column="cInvCode" property="cInvCode"/>
         		<result column="cInvName" property="cInvName"/>
         		<result column="cInvStd" property="cInvStd"/>
+        		<result column="cInvAddCode" property="cInvAddCode"/>
         		
         		<association property="computationUnit" javaType="ComputationUnit">
         			<result column="cComunitCode" property="cComunitCode"/>
@@ -28,15 +31,23 @@
         
         <select id="list" resultMap="PP_PomainBean">
 			select PP_POMain.MainId,PP_POMain.ID,PP_POMain.fQuantity,PP_POMain.fInQuantity,
-			Inventory.cInvCode,Inventory.cInvName,Inventory.cInvStd,
+			Inventory.cInvCode,Inventory.cInvName,Inventory.cInvStd,Inventory.cInvAddCode,PP_ProductPO.cCode,PP_ProductPO.cMaker,PP_ProductPO.cDepCode,
         	convert(varchar(50),PP_POMain.dStartDate,23) as dStartDate,
         	convert(varchar(50),PP_POMain.dEndDate,23) as dEndDate,
-        	ComputationUnit.cComunitName,ComputationUnit.cComunitCode,cDefine22 from PP_POMain
+        	ComputationUnit.cComunitName,ComputationUnit.cComunitCode,PP_POMain.cDefine22 from PP_POMain
         	left join Inventory on PP_POMain.cInvCode=Inventory.cInvCode
         	left join ComputationUnit on Inventory.cComunitCode=ComputationUnit.cComunitCode
+        	left join PP_PODetails on PP_PODetails.MainID=PP_POMain.MainID
+        	left join PP_ProductPO on PP_ProductPO.ID=PP_POMain.ID
         	<where>
         		<if test="ID!=null">
         			and PP_POMAin.ID=#{ID}
+        		</if>
+        		<if test="!detailsFinshed">
+        			and PP_PODetails.fQuantity > PP_PODetails.fOutQuantity
+        		</if>
+        		<if test="!bFinished">
+        			and PP_POMAin.fQuantity > PP_POMain.fInQuantity
         		</if>        	
         	</where>
         </select>
@@ -69,9 +80,25 @@
         	
         </select>
         
-        <select id="getPp_pomain" parameterType="int" resultType="Rdrecords">
-        	select cInvCode,ID as  iMPoIds,cDefine22,cDefine25,cDefine26,cDefine27
-        	from PP_POMain
+        <select id="getPp_pomain" resultType="Rdrecords">
+        	<choose>
+        		<when test="mainId!=null">
+        			select cInvCode,ID as  iMPoIds,cDefine22,cDefine25,cDefine26,cDefine27
+        	from PP_POMain where MainId=#{mainId}
+        		</when>
+        		
+        		<when test="subId!=null">
+        			select Inventory.cInvCode as cCBGJDXCode,Inventory.cInvName as ccbgjdxname
+        			from PP_POMain
+        			left join PP_PODetails  on PP_POMain.MainId=PP_PODetails.MainId
+        			left join Inventory on PP_POMain.cInvCode=Inventory.cInvCode 
+        			where PP_PODetails.SubID = #{subId}
+        		</when>
+        	</choose>
+        </select>
+        
+        <select id="getId" parameterType="int" resultType="int">
+        	select ID from PP_POMain
         	<where>
         		<if test="mainId!=null">
         			and MainId=#{mainId}

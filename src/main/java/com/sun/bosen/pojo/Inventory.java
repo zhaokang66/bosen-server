@@ -7,7 +7,15 @@ public class Inventory {
 	private String cInvName;
 	//规格型号
 	private String cInvStd;
+	private String cInvAddCode;//存货代码
 	private ComputationUnit computationUnit;
+	public String getcInvAddCode() {
+		return cInvAddCode;
+	}
+	public void setcInvAddCode(String cInvAddCode) {
+		this.cInvAddCode = cInvAddCode;
+	}
+
 	
 	public String getcInvCode() {
 		return cInvCode;

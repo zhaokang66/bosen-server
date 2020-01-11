@@ -69,7 +69,9 @@ public class RdrecordServiceImpl implements RdrecordService{
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.000");
 			dateFormat.format(date);
 			rdrecord.setdDate(dateFormat.format(date));
+			rdrecord.setdVeriDate(dateFormat.format(date));
 			flag[0] = 1;
+			
 			rdrecordMapper.add(rdrecord);
 		} else {
 //			if (!isExistsRdrecord.getcOrderCode().equals(rdrecordList.getcOrderCode())) {
@@ -79,6 +81,7 @@ public class RdrecordServiceImpl implements RdrecordService{
 			flag[0] = 0;
 			flag[1] = isExistsRdrecord.getiD();
 		}
+		System.out.println(JSONObject.toJSONString(rdrecord));
 		return flag;
 	}
 }

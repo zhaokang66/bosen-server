@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.sun.bosen.mapper.RdStyleMapper">    
+       
+        
+        
+        <select id="list" resultType="RdStyle">
+        	select cRdCode,cRdName,bRdFlag from Rd_Style where bRdFlag=0 and iRdGrade=2
+        </select>
+        
+        
+
+        
+    </mapper>

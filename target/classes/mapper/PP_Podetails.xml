@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.sun.bosen.mapper.PP_PodetailsMapper">    
+       
+        <resultMap type="PP_Podetails" id="PP_PodetailsBean">
+        	<id column="SubID" property="subId"/>
+        	<result column="MainID" property="mainId"/>
+        	<result column="fQuantity" property="fQuantity"/>
+        	<result column="cDefine22" property="cDefine22"/>
+        	<result column="fOutQuantity" property="fOutQuantity"/>
+        	<result column="cCode" property="cCode"/>
+        	<result column="cMarker" property="cMarker"/>
+        	<result column="cDepCode" property="cDepCode"/>
+        	<association property="inventory" javaType="Inventory">
+        		<result column="cInvCode" property="cInvCode"/>
+        		<result column="cInvName" property="cInvName"/>
+        		<result column="cInvStd" property="cInvStd"/>
+        		<result column="cInvAddCode" property="cInvAddCode"/>
+        		
+        		<association property="computationUnit" javaType="ComputationUnit">
+        			<result column="cComunitName" property="cComunitName"/>
+        		</association>
+        	</association>      	
+        </resultMap>
+        
+        <select id="list" resultMap="PP_PodetailsBean">
+			select PP_PODetails.cDefine22,PP_PODetails.MainID,PP_PODetails.SubID,PP_PODetails.fQuantity,
+			Inventory.cInvCode,Inventory.cInvName,Inventory.cInvStd,Inventory.cInvAddCode
+			,ComputationUnit.cComunitName,PP_PODetails.fOutQuantity,PP_ProductPO.cCode,PP_ProductPO.cMaker,PP_ProductPO.cDepCode
+			from PP_PODetails
+			left join Inventory on Inventory.cInvCode=PP_PODetails.cInvCode
+			left join ComputationUnit on Inventory.cComunitCode=ComputationUnit.cComunitCode
+			left join PP_POMain on  PP_POMain.MainId=PP_PODetails.MainID
+			left join PP_ProductPO on PP_ProductPO.ID=PP_POMain.ID
+			<where>
+				<if test="mainId!=null">
+					and PP_PODetails.MainID=#{mainId}
+				</if>
+				<if test="!detailsFinshed">
+					and PP_PODetails.fQuantity > ISNULL(PP_PODetails.fOutQuantity,0)
+				</if>
+			</where>
+        </select>
+        
+        <select id="updatefOutQuantity" parameterType="PP_Podetails">
+        	update PP_PODetails set fOutQuantity=fOutQuantity+#{nowfOutQuantity} where SubID=#{subId}
+        </select>
+    </mapper>

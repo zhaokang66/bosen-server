@@ -22,9 +22,11 @@ public class PP_PomainServiceImpl implements PP_PomainService{
 	PP_PomainMapper pp_PomainMapper;
 	
 	@Override
-	public List<PP_Pomain> list(Integer ID) {
+	public List<PP_Pomain> list(Integer ID, boolean bFinished, boolean detailsFinshed) {
 		Map<String, Object> param= new HashMap<String, Object>();
-		param.put("ID", ID);		
+		param.put("ID", ID);
+		param.put("bFinished", bFinished);
+		param.put("detailsFinshed", detailsFinshed);
 		return pp_PomainMapper.list(param);
 	}
 
@@ -40,12 +42,6 @@ public class PP_PomainServiceImpl implements PP_PomainService{
 		param.put("mainId", data.getMainId());
 		param.put("nowiReceivedQTY", data.getNowiReceivedQTY());	
 		pp_PomainMapper.updatefInQuantity(param);
-	}
-
-	@Override
-	public Rdrecords getPp_pomain(int mainId) {
-		
-		return pp_PomainMapper.getPp_pomain(mainId);
 	}
 
 }

@@ -5,28 +5,56 @@
  
     <mapper namespace="com.sun.bosen.mapper.PP_ProductPOMapper">    
         <select id="list" resultType="PP_ProductPO">
-        select top 100 PP_ProductPO.ID,PP_ProductPO.cCode,
-            convert(varchar(50),PP_ProductPO.dDate,23) as dDate,
+        select distinct  top 100 PP_ProductPO.ID,PP_ProductPO.cCode,
+            convert(varchar(50),PP_ProductPO.dDate,23) as dDate,Department.cDepName,
             PP_ProductPO.cMemo from   
-            PP_ProductPO
+            PP_ProductPO left join PP_POMain on PP_POMain.ID=PP_ProductPO.ID
+            left join Department on Department.cDepCode=PP_ProductPO.cDepCode
+            left join PP_PODetails on PP_PODetails.MainID=PP_POMain.MainID
             <where>
             	<if test="!bFinished">
-            		and PO_Podetails.iQuantity>PO_Podetails.iReceivedQTY
+            		and PP_POMain.fQuantity > PP_POMain.fInQuantity
+            	</if>
+            	<if test="!detailsFinshed">
+            		and PP_PODetails.fQuantity > PP_PODetails.fOutQuantity
             	</if>
             	<if test="endId!=-1">
             	    and PP_ProductPO.ID &lt; #{endId}
             	</if>
-            	
+            <!--  	and PP_POMain.cClose is null-->
             </where>
             order by PP_ProductPO.ID desc
         </select>
         
-        <select id="getPp_Product" parameterType="int" resultType="Rdrecord">
-        	select cCode as cMPoCode,cVerifier as cHandler,cMemo,cDefine16,dCheckDate as dVeriDate,cDepCode,cPersonCode,cVerifier as cHandler,cMaker,ID as iproorderid from PP_ProductPO
-        	<where>
-        		<if test="id!=null">
-        			and ID=#{id}
-        		</if>
-        	</where>
+        <select id="getPp_Product" resultType="Rdrecord">
+        	<choose>
+        		<when test="ppInMainId!=null">
+        			select 
+	        			PP_ProductPO.cCode as cMPoCode,
+	        			PP_ProductPO.cVerifier as cHandler,
+	        			PP_ProductPO.cMemo,
+	        			PP_ProductPO.cPersonCode,
+	        			PP_ProductPO.dCheckDate as dVeriDate,
+	        			PP_ProductPO.ID as iproorderid,
+	        			PP_POMain.cInvCode as cPsPcode
+	        			
+	        		from PP_ProductPO
+	        		left join PP_POMain on PP_ProductPO.ID=PP_POMain.ID
+        			where PP_POMain.MainId=#{ppInMainId}
+        		</when>
+        		<when test="ppOutMainId!=null">
+        			select 
+        				cCode as cMPoCode,
+        				PP_ProductPO.ID as iproorderid,
+        				PP_POMain.cInvCode as cPsPcode,
+        				PP_POMain.fQuantity as iMQuantity
+        				 from PP_ProductPO
+        			left join PP_POMain on PP_POMain.ID=PP_ProductPO.ID
+        			where PP_POMain.MainId=#{ppOutMainId}
+        		</when>
+        		
+        	</choose>
+        	
+        	
         </select>
     </mapper>

@@ -35,6 +35,9 @@
         	<where>
         		<if test="pOID!=null">
         			and PO_Podetails.POID=#{pOID}
+        		</if>
+        		<if test="!bFinished">
+        			and PO_Podetails.iQuantity>ISNULL(PO_Podetails.iReceivedQTY,0)
         		</if>        	
         	</where>
         </select>

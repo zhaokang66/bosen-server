@@ -122,7 +122,7 @@ public class BirthPurchaseWarehousingServiceImpl implements BirthPurchaseWarehou
 			if (i == 0) {
 				rdrecordStartID = rdrecord.getiD();
 			}
-			rdrecord.setstartID(rdrecordStartID);
+			rdrecord.setStartID(rdrecordStartID);
 		} else if (object.equals("MyRdrecord")) {
 			infoID = myRdrecordMapper.getLastInfo(null);
 			if (infoID == null) {
@@ -141,7 +141,7 @@ public class BirthPurchaseWarehousingServiceImpl implements BirthPurchaseWarehou
 			if (i == 0) {
 				myRdrecordStartID = rdrecord.getiD();
 			}
-			rdrecord.setstartID(myRdrecordStartID);
+			rdrecord.setStartID(myRdrecordStartID);
 		}
 		System.out.println(JSONObject.toJSONString(rdrecord, SerializerFeature.WriteMapNullValue));
 		return rdrecord;

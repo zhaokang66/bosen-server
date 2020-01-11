@@ -27,12 +27,12 @@ public class Rdrecord {
 	private int iproorderid;
 	private String dVeriDate;
 	private String cDefine16;
-	private String iMQuantity;
+	private float iMQuantity;//产量
 	
-	public String getiMQuantity() {
+	public float getiMQuantity() {
 		return iMQuantity;
 	}
-	public void setiMQuantity(String iMQuantity) {
+	public void setiMQuantity(float iMQuantity) {
 		this.iMQuantity = iMQuantity;
 	}
 	public String getcDefine16() {
@@ -95,9 +95,7 @@ public class Rdrecord {
 	public int getvT_ID() {
 		return vT_ID;
 	}
-	public void setstartID(int startID) {
-		this.startID = startID;
-	}
+
 	public int getstartID() {
 		return startID;
 	}

@@ -52,7 +52,6 @@ import com.sun.bosen.pojo.testJSON;
 import com.sun.bosen.service.PO_PodetailsService;
 import com.sun.bosen.service.PO_PomainService;
 import com.sun.bosen.service.BirthPurchaseWarehousingService;
-import com.sun.bosen.service.WarehouseService;
 import com.sun.bosen.util.ImageUtil;
 import com.sun.bosen.util.UploadedImageFile;
 import com.sun.bosen.pojo.Warehouse;
@@ -71,8 +70,6 @@ public class PO_PoController {
 	@Autowired
 	PO_PodetailsService po_PodetailsService;
 	@Autowired
-	WarehouseService warehouseService;
-	@Autowired
 	BirthPurchaseWarehousingService birthWarehousingService;
 
 	// ssm返回json需要添加注解@ResponseBody 和jackson-databind maven依赖
@@ -89,8 +86,8 @@ public class PO_PoController {
 
 	@ResponseBody
 	@RequestMapping("/listPO_Podetails")
-	public List<PO_Podetails> listPO_Podetails(Integer pOID) {
-		List<PO_Podetails> list = po_PodetailsService.list(pOID);
+	public List<PO_Podetails> listPO_Podetails(Integer pOID, boolean bFinished) {
+		List<PO_Podetails> list = po_PodetailsService.list(pOID, bFinished);
 		//System.out.println(JSONObject.toJSONString(list));
 		return list;
 	}
@@ -110,14 +107,6 @@ public class PO_PoController {
 	@RequestMapping("/submitPO_Podetails")
 	public String submitPO_Podetails(@RequestBody PO_Podetails[] data) {
 		return birthWarehousingService.add(data);	
-	}
-
-	@ResponseBody
-	@RequestMapping("/getcWhCodeList")
-	public List<Warehouse> getcWhCodeList() {
-		List<Warehouse> list = warehouseService.list();
-		System.out.println(JSONObject.toJSONString(list));
-		return list;
 	}
 
 	public void test() {
