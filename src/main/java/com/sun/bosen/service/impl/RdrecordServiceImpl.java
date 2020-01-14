@@ -1,22 +1,15 @@
 package com.sun.bosen.service.impl;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sun.bosen.mapper.RdrecordMapper;
-import com.sun.bosen.pojo.PO_Podetails;
 import com.sun.bosen.pojo.Rdrecord;
-import com.sun.bosen.pojo.Rdrecords;
 import com.sun.bosen.service.CurrentStockService;
 import com.sun.bosen.service.MyCurrentStockService;
 import com.sun.bosen.service.MyRdrecordService;
@@ -48,7 +41,6 @@ public class RdrecordServiceImpl implements RdrecordService{
 	@Autowired
 	RdrecordMapper rdrecordMapper;
 	
-	private int startID;
 	
 	@Override
 	public void updateUfs() {

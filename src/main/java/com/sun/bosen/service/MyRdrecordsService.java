@@ -4,5 +4,5 @@ import com.sun.bosen.pojo.PO_Podetails;
 import com.sun.bosen.pojo.Rdrecords;
 
 public interface MyRdrecordsService {
-	void updateRdrecords(Rdrecords myrdrecords);
+	void updateRdrecords(Rdrecords myRdrecords);
 }

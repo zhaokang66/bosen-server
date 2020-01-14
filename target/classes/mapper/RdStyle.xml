@@ -8,7 +8,7 @@
         
         
         <select id="list" resultType="RdStyle">
-        	select cRdCode,cRdName,bRdFlag from Rd_Style where bRdFlag=0 and iRdGrade=2
+        	select cRdCode,cRdName,bRdFlag from Rd_Style where bRdFlag=#{bRdFlag} and iRdGrade=2	 
         </select>
         
         

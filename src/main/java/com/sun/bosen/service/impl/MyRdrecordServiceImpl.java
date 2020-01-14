@@ -6,13 +6,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.sun.bosen.mapper.MyRdrecordMapper;
-import com.sun.bosen.pojo.PO_Podetails;
 import com.sun.bosen.pojo.Rdrecord;
 import com.sun.bosen.service.MyRdrecordService;
 import com.sun.bosen.service.PO_PomainService;

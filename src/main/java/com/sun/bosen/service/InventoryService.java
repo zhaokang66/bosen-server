@@ -6,7 +6,7 @@ import com.sun.bosen.pojo.Inventory;
 
 public interface InventoryService {
 
-	List<Inventory> list(String cInvCCode);
+	List<Inventory> list(String cInvCCode, Integer limit);
 
 	Inventory getInventory(String cInvCode);
 

@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sun.bosen.mapper.PO_PomainMapper;
-import com.sun.bosen.pojo.PO_Podetails;
 import com.sun.bosen.pojo.PO_Pomain;
-import com.sun.bosen.pojo.Rdrecord;
 import com.sun.bosen.service.PO_PomainService;
 
 @Service

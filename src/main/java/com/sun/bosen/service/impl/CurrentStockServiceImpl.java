@@ -6,11 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.sun.bosen.mapper.CurrentStockMapper;
-import com.sun.bosen.pojo.PO_Podetails;
 import com.sun.bosen.service.CurrentStockService;
 
 @Service

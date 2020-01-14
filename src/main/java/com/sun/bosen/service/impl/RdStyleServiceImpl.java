@@ -15,9 +15,9 @@ public class RdStyleServiceImpl implements RdStyleService{
 	@Autowired
 	RdStyleMapper rdStyleMapper;
 	@Override
-	public List<RdStyle> list() {
+	public List<RdStyle> list(Integer bRdFlag) {
 		
-		return rdStyleMapper.list();
+		return rdStyleMapper.list(bRdFlag);
 	}
 
 }

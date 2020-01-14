@@ -3,7 +3,7 @@ package com.sun.bosen.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.BeanUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.sun.bosen.mapper.MyRdrecordMapper;
-import com.sun.bosen.mapper.MyRdrecordsMapper;
 import com.sun.bosen.mapper.PO_PomainMapper;
 import com.sun.bosen.mapper.RdrecordMapper;
 import com.sun.bosen.mapper.RdrecordsMapper;
@@ -162,16 +161,16 @@ public class BirthPurchaseWarehousingServiceImpl implements BirthPurchaseWarehou
 			if (object.equals("Rdrecords")) {
 				System.out.println("start select rdrecord id");
 				rdrecords.setiD(rdrecordService.getRdrecordId(param));
-				rdrecords.setautoId(rdrecordsMapper.getLastInfoId() + 1);
+				rdrecords.setAutoId(rdrecordsMapper.getLastInfoId() + 1);
 			} else if (object.equals("MyRdrecords")) {
 				rdrecords.setiD(myRdrecordService.getRdrecordId(param));
 			}
 		} else {
 			rdrecords.setiD(flag[1]);
-			rdrecords.setautoId(rdrecordsMapper.getLastInfoId() + 1);
+			rdrecords.setAutoId(rdrecordsMapper.getLastInfoId() + 1);
 		}
 		System.out.println(JSONObject.toJSONString(rdrecords, SerializerFeature.WriteMapNullValue));
-		System.out.println(rdrecords.getautoid());
+		System.out.println(rdrecords.getAutoId());
 		return rdrecords;
 	}
 

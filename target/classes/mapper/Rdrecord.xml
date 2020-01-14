@@ -82,13 +82,13 @@
 		select Top 1 ID from Rdrecord
 		<where>
 			<if test="ID!=null">
-				and iproorderid=#{ID} order by ID desc
+				and iproorderid=#{ID} 
 			</if>
 			<if test="pOID!=null">
-				and ipurorderid=#{pOID} order by ID desc
+				and ipurorderid=#{pOID} 
 			</if>
 		</where>
-
+		order by ID desc
 	</select>
 
 

@@ -21,6 +21,13 @@ public class Rdrecords {
 	private String cDefine26;
 	private String cDefine27;
 	private String cCBGJDXCode;
+	private String cBVencode;
+	public String getcBVencode() {
+		return cBVencode;
+	}
+	public void setcBVencode(String cBVencode) {
+		this.cBVencode = cBVencode;
+	}
 	private String ccbgjdxname;
 	
 	public String getcCBGJDXCode() {
@@ -59,11 +66,13 @@ public class Rdrecords {
 	public void setcDefine22(String cDefine22) {
 		this.cDefine22 = cDefine22;
 	}
-	public void setautoId(int autoId) {
-		this.autoId = autoId;
-	}
-	public int getautoid() {
+
+
+	public int getAutoId() {
 		return autoId;
+	}
+	public void setAutoId(int autoId) {
+		this.autoId = autoId;
 	}
 	public void setiD(int iD) {
 		this.iD = iD;

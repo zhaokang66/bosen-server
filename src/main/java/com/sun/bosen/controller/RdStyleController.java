@@ -26,8 +26,8 @@ public class RdStyleController {
 	
 	@ResponseBody
 	@RequestMapping("/getRdStyleList")
-	public List<RdStyle> getRdStyleList() {
-		List<RdStyle> list = rdStyleService.list();
+	public List<RdStyle> getRdStyleList(Integer bRdFlag) {
+		List<RdStyle> list = rdStyleService.list(bRdFlag);
 		return list;
 	}
 }

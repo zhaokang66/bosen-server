@@ -1,6 +1,8 @@
 package com.sun.bosen.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +18,11 @@ public class InventoryServiceImpl implements InventoryService{
 	InventoryMapper inventoryMapper;
 	
 	@Override
-	public List<Inventory> list(String cInvCCode) {
-		
-		return inventoryMapper.list(cInvCCode);
+	public List<Inventory> list(String cInvCCode, Integer limit) {
+		Map<String, Object> param= new HashMap<String, Object>();
+		param.put("cInvCCode", cInvCCode);
+		param.put("limit", limit);
+		return inventoryMapper.list(param);
 	}
 
 	@Override

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.sun.bosen.mapper.PP_PomainMapper;
 import com.sun.bosen.pojo.PP_Pomain;
-import com.sun.bosen.pojo.Rdrecords;
 import com.sun.bosen.service.PP_PomainService;
 
 

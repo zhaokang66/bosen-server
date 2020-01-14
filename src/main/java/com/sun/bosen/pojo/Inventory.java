@@ -9,6 +9,14 @@ public class Inventory {
 	private String cInvStd;
 	private String cInvAddCode;//存货代码
 	private ComputationUnit computationUnit;
+	private String cVenCode;
+	
+	public String getcVenCode() {
+		return cVenCode;
+	}
+	public void setcVenCode(String cVenCode) {
+		this.cVenCode = cVenCode;
+	}
 	public String getcInvAddCode() {
 		return cInvAddCode;
 	}

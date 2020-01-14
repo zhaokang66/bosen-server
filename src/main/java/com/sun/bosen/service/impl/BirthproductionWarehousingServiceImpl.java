@@ -19,7 +19,7 @@ import com.sun.bosen.mapper.RdrecordsMapper;
 import com.sun.bosen.pojo.PP_Pomain;
 import com.sun.bosen.pojo.Rdrecord;
 import com.sun.bosen.pojo.Rdrecords;
-import com.sun.bosen.service.BirthproductionWarehousingService;
+import com.sun.bosen.service.BirthProductionWarehousingService;
 import com.sun.bosen.service.CurrentStockService;
 import com.sun.bosen.service.MyCurrentStockService;
 import com.sun.bosen.service.MyRdrecordService;
@@ -29,7 +29,7 @@ import com.sun.bosen.service.RdrecordService;
 import com.sun.bosen.service.RdrecordsService;
 
 @Service
-public class BirthproductionWarehousingServiceImpl implements BirthproductionWarehousingService {
+public class BirthProductionWarehousingServiceImpl implements BirthProductionWarehousingService {
 
 	@Autowired
 	PP_PomainService pp_PomainService;
@@ -179,7 +179,7 @@ public class BirthproductionWarehousingServiceImpl implements BirthproductionWar
 			param.put("ID", data.getId());
 			if (object.equals("Rdrecords")) {
 				rdrecords.setiD(rdrecordService.getRdrecordId(param));
-				rdrecords.setautoId(rdrecordsMapper.getLastInfoId() + 1);
+				rdrecords.setAutoId(rdrecordsMapper.getLastInfoId() + 1);
 			} else if (object.equals("MyRdrecords")) {
 				rdrecords.setiD(myRdrecordService.getRdrecordId(param));
 			}

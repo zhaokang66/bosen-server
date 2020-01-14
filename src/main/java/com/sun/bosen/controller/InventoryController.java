@@ -17,8 +17,6 @@ import com.sun.bosen.service.InventoryService;
 @ContextConfiguration("classpath:applicationContext.xml")
 @Controller
 @RequestMapping("")
-
-
 public class InventoryController {
 	
 	@Autowired
@@ -26,8 +24,8 @@ public class InventoryController {
 	
 	@ResponseBody
 	@RequestMapping("/listInventory")
-	public List<Inventory> listInventory(String cInvCCode) {
-		List<Inventory> list = inventoryService.list(cInvCCode);
+	public List<Inventory> listInventory(String cInvCCode, Integer limit) {
+		List<Inventory> list = inventoryService.list(cInvCCode, limit);
 		return list;
 	}
 

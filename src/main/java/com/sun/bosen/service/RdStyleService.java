@@ -6,6 +6,6 @@ import com.sun.bosen.pojo.RdStyle;
 
 public interface RdStyleService {
 
-	List<RdStyle> list();
+	List<RdStyle> list(Integer bRdFlag);
 
 }

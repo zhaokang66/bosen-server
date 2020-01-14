@@ -9,6 +9,7 @@
 		<result column="cInvName" property="cInvName" />
 		<result column="cInvAddCode" property="cInvAddCode" />
 		<result column="cInvStd" property="cInvStd" />
+		<result column="cVenCode" property="cVenCode" />
 
 
 		<association property="computationUnit" javaType="ComputationUnit">
@@ -18,12 +19,13 @@
 	</resultMap>
 
 	<select id="list" resultMap="InventoryBean">
-		select
+		select distinct Top 50 
 		Inventory.cInvCode,
 		Inventory.cInvName,
 		Inventory.cInvAddCode,
 		Inventory.cInvStd,
-		ComputationUnit.cComunitName
+		ComputationUnit.cComunitName,
+		Inventory.cVenCode
 		from Inventory
 		left join ComputationUnit on
 		Inventory.cComunitCode=ComputationUnit.cComunitCode
@@ -33,7 +35,11 @@
 				and cInvCCode=#{cInvCCode}
 			</if>
 		</where>
+		and Inventory.cInvCode not in (
+			select top (#{limit} -50) cInvCode from Inventory
+		)
 	</select>
+	
 	
 	<select id="getInventory" resultMap="InventoryBean">
 		select
@@ -41,6 +47,7 @@
 		Inventory.cInvName,
 		Inventory.cInvAddCode,
 		Inventory.cInvStd,
+		Inventory.cVenCode,
 		ComputationUnit.cComunitName
 		from Inventory
 		left join ComputationUnit on

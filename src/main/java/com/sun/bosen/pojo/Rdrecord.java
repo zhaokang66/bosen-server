@@ -96,9 +96,7 @@ public class Rdrecord {
 		return vT_ID;
 	}
 
-	public int getstartID() {
-		return startID;
-	}
+
 	public void setiPurorderid(int iPurorderid) {
 		this.iPurorderid = iPurorderid;
 	}

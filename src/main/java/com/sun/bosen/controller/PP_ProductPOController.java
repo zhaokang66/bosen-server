@@ -19,8 +19,7 @@ import com.sun.bosen.pojo.PP_Podetails;
 import com.sun.bosen.pojo.PP_Pomain;
 import com.sun.bosen.pojo.PP_ProductPO;
 import com.sun.bosen.service.BirthPurchaseWarehousingService;
-import com.sun.bosen.service.BirthproductionWarehousingService;
-import com.sun.bosen.service.BitrhProductionOutStockService;
+import com.sun.bosen.service.BirthProductionWarehousingService;
 import com.sun.bosen.service.PP_PodetailsService;
 import com.sun.bosen.service.PP_PomainService;
 import com.sun.bosen.service.PP_ProductPOService;
@@ -36,11 +35,9 @@ public class PP_ProductPOController {
 	@Autowired
 	PP_PomainService pp_PomainService;
 	@Autowired
-	BirthproductionWarehousingService birthproductionWarehousingService;
+	BirthProductionWarehousingService birthproductionWarehousingService;
 	@Autowired
 	PP_PodetailsService pp_PodetailsService;
-	@Autowired
-	BitrhProductionOutStockService BitrhProductionOutStockService;
 	
 	@ResponseBody
 	@RequestMapping("/listPP_ProductPO")
@@ -75,11 +72,6 @@ public class PP_ProductPOController {
 		return birthproductionWarehousingService.add(data);
 	}
 	
-	@ResponseBody
-	@RequestMapping("/submitpp_Podetails")
-	public String submitpp_Podetails(@RequestBody PP_Podetails[] data) {
-		System.out.println(JSONObject.toJSONString(data));
-		return BitrhProductionOutStockService.add(data);
-	}
+
 	
 }
