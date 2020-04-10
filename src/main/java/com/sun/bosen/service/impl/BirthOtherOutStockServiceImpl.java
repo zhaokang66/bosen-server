@@ -122,9 +122,11 @@ public class BirthOtherOutStockServiceImpl implements BirthOtherOutStockService{
 		rdrecords.setiQuantity(data.getfQuantity());
 		rdrecords.setcBVencode(data.getcVenCode());
 		Map<String, Object> param = new HashMap<String, Object>();
+		int lastAutoID = (rdrecordsMapper.getLastInfoId() == null) ? 0 : rdrecordsMapper.getLastInfoId();
+		
 		if (object.equals("Rdrecords")) {
 			rdrecords.setiD(rdrecordMapper.getRdrecordId(param));
-			rdrecords.setAutoId(rdrecordsMapper.getLastInfoId() + 1);
+			rdrecords.setAutoId(lastAutoID + 1);
 		} else if (object.equals("My_Rdrecords")) {
 			rdrecords.setiD(myRdrecordMapper.getRdrecordId(param));
 		}

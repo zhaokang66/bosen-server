@@ -4,7 +4,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sun.bosen.mapper.RdrecordsMapper">
-	<select id="getLastInfoId" resultType="int" flushCache="true">
+	<select id="getLastInfoId" resultType="Integer" flushCache="true">
 
 		select Top 1 AutoID from Rdrecords order by AutoID desc
 	</select>
@@ -19,18 +19,18 @@
 		values(
 			#{autoId},#{iD},#{cInvCode},#{iQuantity},Convert(decimal(18,4),
 			#{iUnitCost}),Convert(decimal(18,2),#{iPrice}),
-			(CASE WHEN Convert(decimal(18,2),#{iAPrice}) != 0 then Convert(decimal(18,2),#{iAPrice}) END),
+			Convert(decimal(18,2),#{iAPrice}),
 			#{cDefine25},
 			(CASE WHEN #{iPOsID} != 0 then #{iPOsID} END),
-			(CASE WHEN Convert(decimal(18,4),#{fACost}) != 0 then Convert(decimal(18,4),#{fACost}) END),
-			(CASE WHEN Convert(decimal(18,2),#{iTaxCost}) != 0 then Convert(decimal(18,2),#{iTaxCost}) END),
+		Convert(decimal(18,4),#{fACost}),
+		Convert(decimal(18,2),#{iTaxCost}),
 			#{iNQuantity},
-			(CASE WHEN Convert(decimal(18,2),#{iTaxPrice}) != 0 then Convert(decimal(18,2),#{iTaxPrice}) END),
+		Convert(decimal(18,2),#{iTaxPrice}),
 			(CASE WHEN Convert(decimal(18,2),#{iTaxRate}) != 0 then Convert(decimal(18,2),#{iTaxRate}) END),
-			(CASE WHEN Convert(decimal(18,2),#{iSum}) != 0 then Convert(decimal(18,2),#{iSum}) END),
+			Convert(decimal(18,2),#{iSum}),
 			0,#{cDefine22},0,0,0,' ',
 			(CASE WHEN #{iMPoIds} != 0 then #{iMPoIds} END),
-			ISNULL(#{cDefine26},0),ISNULL(#{cDefine27},0),#{cCBGJDXCode},#{ccbgjdxname},#{cBVencode}
+			#{cDefine26},#{cDefine27},#{cCBGJDXCode},#{ccbgjdxname},#{cBVencode}
 		)
 
 	</select>

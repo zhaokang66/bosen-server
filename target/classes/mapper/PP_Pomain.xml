@@ -16,6 +16,7 @@
         	<result column="cCode" property="cCode"/>
         	<result column="cMarker" property="cMarker"/>
         	<result column="cDepCode" property="cDepCode"/>
+        	<result column="cMemo" property="cMemo"/>
         	<association property="inventory" javaType="Inventory">
         		<result column="cInvCode" property="cInvCode"/>
         		<result column="cInvName" property="cInvName"/>
@@ -30,7 +31,7 @@
         </resultMap>
         
         <select id="list" resultMap="PP_PomainBean">
-			select PP_POMain.MainId,PP_POMain.ID,PP_POMain.fQuantity,PP_POMain.fInQuantity,
+			select PP_POMain.MainId,PP_POMain.ID,PP_POMain.fQuantity,PP_POMain.fInQuantity,PP_POMain.cMemo,
 			Inventory.cInvCode,Inventory.cInvName,Inventory.cInvStd,Inventory.cInvAddCode,PP_ProductPO.cCode,PP_ProductPO.cMaker,PP_ProductPO.cDepCode,
         	convert(varchar(50),PP_POMain.dStartDate,23) as dStartDate,
         	convert(varchar(50),PP_POMain.dEndDate,23) as dEndDate,
@@ -47,8 +48,11 @@
         			and PP_PODetails.fQuantity > PP_PODetails.fOutQuantity
         		</if>
         		<if test="!bFinished">
-        			and PP_POMAin.fQuantity > PP_POMain.fInQuantity
-        		</if>        	
+        			and PP_POMAin.fQuantity > PP_POMain.fInQuantity 
+        		</if>    
+        		<if test="bFinished">
+        			and PP_POMain.fInQuantity!=0
+        		</if>    	
         	</where>
         </select>
         

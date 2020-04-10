@@ -110,11 +110,11 @@ public class BirthProductionWarehousingServiceImpl implements BirthProductionWar
 			rdrecord = pp_ProductPOMapper.getPp_Product(param);
 		}
 		
-		
+		rdrecord.setcMemo(data[0].getcMemo());
 		rdrecord.setcBusType("成品入库");
 		rdrecord.setcSource("生产订单");
 		rdrecord.setcVouchType("10");
-		rdrecord.setcRdCode("102");
+		rdrecord.setcRdCode(data[0].getcRdCode());
 		rdrecord.setvT_ID(63);
 		rdrecord.setiMQuantity(0);
 		rdrecord.setcWhCode(data[0].getcWhCode());
@@ -122,7 +122,6 @@ public class BirthProductionWarehousingServiceImpl implements BirthProductionWar
 		rdrecord.setcMaker(data[0].getcMaker());
 		rdrecord.setcDefine16("0");
 		
-
 		Rdrecord infoID = new Rdrecord();
 		if (object.equals("Rdrecord")) {
 			infoID = rdrecordMapper.getLastInfo(null);
@@ -171,6 +170,7 @@ public class BirthProductionWarehousingServiceImpl implements BirthProductionWar
 		rdrecords.setiUnitCost(data.getiUnitCost());
 		rdrecords.setiPrice(data.getiPrice());
 		rdrecords.setiMPoIds(data.getMainId());
+		int lastAutoID = (rdrecordsMapper.getLastInfoId() == null) ? 0 : rdrecordsMapper.getLastInfoId();
 		if (!data.getProductionCode().equals(null)) {
 			rdrecords.setcDefine22(data.getProductionCode());
 		}
@@ -179,7 +179,7 @@ public class BirthProductionWarehousingServiceImpl implements BirthProductionWar
 			param.put("ID", data.getId());
 			if (object.equals("Rdrecords")) {
 				rdrecords.setiD(rdrecordService.getRdrecordId(param));
-				rdrecords.setAutoId(rdrecordsMapper.getLastInfoId() + 1);
+				rdrecords.setAutoId(lastAutoID + 1);
 			} else if (object.equals("MyRdrecords")) {
 				rdrecords.setiD(myRdrecordService.getRdrecordId(param));
 			}

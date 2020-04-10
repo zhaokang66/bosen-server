@@ -16,7 +16,7 @@
 				</when>
 
 				<otherwise>
-					and ID>0 order by ID desc
+					and ID>=0 order by ID desc
 				</otherwise>
 			</choose>
 		</where>

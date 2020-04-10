@@ -68,8 +68,9 @@ public class PP_ProductPOController {
 	@ResponseBody
 	@RequestMapping("/submitpp_Pomain")
 	public String submitpp_Pomain(@RequestBody PP_Pomain[] data) {
-		System.out.println(JSONObject.toJSONString(data));
+		System.out.println(JSONObject.toJSONString(data[0].getiUnitCost()));
 		return birthproductionWarehousingService.add(data);
+//		return "123";
 	}
 	
 

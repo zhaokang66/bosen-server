@@ -31,6 +31,7 @@
             	</if>
             	and PO_Pomain.cCloser is null
             </where>
+            and PO_Pomain.cState=1
             order by PO_Pomain.POID desc
         </select>
         

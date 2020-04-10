@@ -155,19 +155,21 @@ public class BirthPurchaseWarehousingServiceImpl implements BirthPurchaseWarehou
 		rdrecords.setiAPrice(data.getNowiReceivedQTY() * rdrecords.getfACost());
 		rdrecords.setiSum(data.getNowiReceivedQTY() * rdrecords.getiTaxCost());
 		rdrecords.setiTaxPrice((rdrecords.getiTaxCost() - rdrecords.getiUnitCost()) * rdrecords.getiNQuantity());
+		rdrecords.setcBVencode(" ");
+		int lastAutoID = (rdrecordsMapper.getLastInfoId() == null) ? 0 : rdrecordsMapper.getLastInfoId();
 		if (flag[0] == 1) {
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("pOID", data.getpOID());
 			if (object.equals("Rdrecords")) {
 				System.out.println("start select rdrecord id");
 				rdrecords.setiD(rdrecordService.getRdrecordId(param));
-				rdrecords.setAutoId(rdrecordsMapper.getLastInfoId() + 1);
+				rdrecords.setAutoId(lastAutoID + 1);
 			} else if (object.equals("MyRdrecords")) {
 				rdrecords.setiD(myRdrecordService.getRdrecordId(param));
 			}
 		} else {
 			rdrecords.setiD(flag[1]);
-			rdrecords.setAutoId(rdrecordsMapper.getLastInfoId() + 1);
+			rdrecords.setAutoId(lastAutoID + 1);
 		}
 		System.out.println(JSONObject.toJSONString(rdrecords, SerializerFeature.WriteMapNullValue));
 		System.out.println(rdrecords.getAutoId());

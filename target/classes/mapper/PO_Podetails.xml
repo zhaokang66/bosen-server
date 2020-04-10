@@ -53,7 +53,7 @@
         </select>
         
         <select id="getPo_podetails" parameterType="int" resultType="Rdrecords">
-        	select cInvCode,iUnitPrice as iUnitCost,cDefine25,cDefine26,cDefine27,ID as iPOsID,iNatUnitPrice as fACost,
+        	select cInvCode,iUnitPrice as iUnitCost,cDefine25,ID as iPOsID,iNatUnitPrice as fACost,
         	iTaxPrice as iTaxCost,iPerTaxRate as iTaxRate,cDefine22
         	from PO_Podetails
         	<where>

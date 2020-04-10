@@ -164,12 +164,12 @@ public class BitrhMaterialOutStockServiceImpl implements BitrhMaterialOutStockSe
 		BeanUtils.copyProperties(data, rdrecords);
 		rdrecords.setiNQuantity(data.getfQuantity());
 		rdrecords.setiMPoIds(data.getSubId());
-
+		int lastAutoID = (rdrecordsMapper.getLastInfoId() == null) ? 0 : rdrecordsMapper.getLastInfoId();
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("ID", pp_PomainMapper.getId(data.getMainId()));
 		if (object.equals("Rdrecords")) {
 			rdrecords.setiD(rdrecordService.getRdrecordId(param));
-			rdrecords.setAutoId(rdrecordsMapper.getLastInfoId() + 1);
+			rdrecords.setAutoId(lastAutoID + 1);
 		} else if (object.equals("My_Rdrecords")) {
 			rdrecords.setiD(myRdrecordService.getRdrecordId(param));
 		}

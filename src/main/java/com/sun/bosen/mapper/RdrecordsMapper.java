@@ -4,7 +4,7 @@ import com.sun.bosen.pojo.Rdrecords;
 
 public interface RdrecordsMapper {
 
-	int getLastInfoId();
+	Integer getLastInfoId();
 
 	void addRerdcords(Rdrecords info);
 

@@ -33,7 +33,6 @@
 	        			PP_ProductPO.cCode as cMPoCode,
 	        			PP_ProductPO.cVerifier as cHandler,
 	        			PP_ProductPO.cMemo,
-	        			PP_ProductPO.cPersonCode,
 	        			PP_ProductPO.dCheckDate as dVeriDate,
 	        			PP_ProductPO.ID as iproorderid,
 	        			PP_POMain.cInvCode as cPsPcode

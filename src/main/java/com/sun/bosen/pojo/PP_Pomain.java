@@ -20,7 +20,21 @@ public class PP_Pomain {
 	private String cCode;
 	private String cMaker;
 	private String cDepCode;
+	private String cMemo;
+	private String cRdCode;
 
+	public String getcRdCode() {
+		return cRdCode;
+	}
+	public void setcRdCode(String cRdCode) {
+		this.cRdCode = cRdCode;
+	}
+	public String getcMemo() {
+		return cMemo;
+	}
+	public void setcMemo(String cMemo) {
+		this.cMemo = cMemo;
+	}
 	public String getcMaker() {
 		return cMaker;
 	}
