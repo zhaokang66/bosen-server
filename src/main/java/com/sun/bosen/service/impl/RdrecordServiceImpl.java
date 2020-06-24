@@ -2,6 +2,7 @@ package com.sun.bosen.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sun.bosen.mapper.RdrecordMapper;
+import com.sun.bosen.pojo.OutboundList;
 import com.sun.bosen.pojo.Rdrecord;
 import com.sun.bosen.service.CurrentStockService;
 import com.sun.bosen.service.MyCurrentStockService;
@@ -75,5 +77,24 @@ public class RdrecordServiceImpl implements RdrecordService{
 		}
 		System.out.println(JSONObject.toJSONString(rdrecord));
 		return flag;
+	}
+	@Override
+	public int getLastFile() {
+		return rdrecordMapper.getLastFile();
+	}
+	@Override
+	public List<OutboundList> rdrecordList(String cBusType) {
+		return rdrecordMapper.rdrecordList(cBusType);
+	}
+	@Override
+	public String deleteList(int id) {
+		String cHandler = rdrecordMapper.isVerify(id);
+		if (cHandler==null || cHandler.isEmpty()) {
+			rdrecordMapper.deleteList(id);
+			return "删除成功";
+			
+		}
+		return "此单据已被审核，不能删除";
+		
 	}
 }

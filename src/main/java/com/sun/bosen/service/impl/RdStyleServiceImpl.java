@@ -16,7 +16,7 @@ public class RdStyleServiceImpl implements RdStyleService{
 	RdStyleMapper rdStyleMapper;
 	@Override
 	public List<RdStyle> list(Integer bRdFlag) {
-		
+
 		return rdStyleMapper.list(bRdFlag);
 	}
 

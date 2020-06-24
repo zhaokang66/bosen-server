@@ -18,8 +18,16 @@
             	<if test="!detailsFinshed">
             		and PP_PODetails.fQuantity > PP_PODetails.fOutQuantity
             	</if>
+            	
             	<if test="endId!=-1">
             	    and PP_ProductPO.ID &lt; #{endId}
+            	</if>
+            	
+            	<if test="cDepName!=''">
+            		and PP_ProductPO.cDepCode = (select cDepCode from Department where Department.cDepName=#{cDepName})
+            	</if>
+            	<if test="productionCode!=''">
+            		and PP_POMain.cDefine22=#{productionCode}
             	</if>
             <!--  	and PP_POMain.cClose is null-->
             </where>

@@ -1,5 +1,4 @@
 package com.sun.bosen.controller;
-
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
@@ -81,6 +80,8 @@ public class PO_PoController {
 
 		List<PO_Pomain> list = po_PomainService.list(bFinished, endId);
 		System.out.println(JSONObject.toJSONString(list));
+		System.out.println(JSONObject.DEFAULT_GENERATE_FEATURE);
+		
 		return list;
 	}
 
@@ -106,6 +107,7 @@ public class PO_PoController {
 	@ResponseBody
 	@RequestMapping("/submitPO_Podetails")
 	public String submitPO_Podetails(@RequestBody PO_Podetails[] data) {
+		System.out.println(JSONObject.toJSONString(data));
 		return birthWarehousingService.add(data);	
 	}
 
@@ -129,6 +131,7 @@ public class PO_PoController {
 					b[i] += 256;
 				}
 			}
+			
 			out.write(b);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

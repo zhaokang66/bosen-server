@@ -22,12 +22,12 @@
 	</select>
 	<select id="add" parameterType="Rdrecord">
 		insert into My_Rdrecord (bRdFlag,
-		cVouchType,cBusType,cSource,cWhCode,cRdCode,cDepCode,cPersonCode,cPTCode,cVenCode,cMemo,VT_ID,dDate,cCode,cOrderCode,cMaker,ipurorderid,cAccountPDate,cMPoCode,cPsPcode,iproorderid,dVeriDate,cHandler,cDefine16,iMQuantity)
+		cVouchType,cBusType,cSource,cWhCode,cRdCode,cDepCode,cPersonCode,cPTCode,cVenCode,cMemo,VT_ID,dDate,cCode,cOrderCode,cMaker,ipurorderid,cAccountPDate,cMPoCode,cPsPcode,iproorderid,cDefine16,iMQuantity)
 		values(#{bRdFlag},#{cVouchType},#{cBusType},#{cSource},#{cWhCode},#{cRdCode},#{cDepCode},#{cPersonCode},#{cPtCode},#{cVenCode},#{cMemo},#{vT_ID},#{dDate},#{cCode},#{cOrderCode},#{cMaker},(CASE
 		WHEN #{iPurorderid} != 0 then #{iPurorderid} END),#{cAccountPDate},
 		#{cMPoCode},#{cPsPcode},(CASE WHEN #{iproorderid} != 0 then
 		#{iproorderid}
-		END),#{dVeriDate},#{cHandler},#{cDefine16},#{iMQuantity})
+		END),#{cDefine16},#{iMQuantity})
 
 	</select>
 
@@ -65,10 +65,10 @@
 		select Top 1 ID from My_Rdrecord
 		<where>
 			<if test="ID!=null">
-				and iproorderid=#{ID} 
+				and iproorderid=#{ID}
 			</if>
 			<if test="pOID!=null">
-				and ipurorderid=#{pOID} 
+				and ipurorderid=#{pOID}
 			</if>
 		</where>
 		order by ID desc

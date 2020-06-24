@@ -1,7 +1,10 @@
 package com.sun.bosen.service.impl;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,7 @@ import com.sun.bosen.service.MyRdrecordsService;
 import com.sun.bosen.service.PP_PodetailsService;
 import com.sun.bosen.service.RdrecordService;
 import com.sun.bosen.service.RdrecordsService;
+import com.sun.bosen.util.ImageUtil;
 
 @Service
 public class BitrhMaterialOutStockServiceImpl implements BitrhMaterialOutStockService {
@@ -59,12 +63,25 @@ public class BitrhMaterialOutStockServiceImpl implements BitrhMaterialOutStockSe
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_UNCOMMITTED, rollbackForClassName = "Exception")
-	public String add(PP_Podetails[] data) {
+	public String add(HttpSession session,PP_Podetails[] data) throws IOException {
+		
+		//生成签名
+//		public void add(HttpSession session, String base64Str, String ) throws IOException {
+//		String destPath = session.getServletContext().getRealPath("img/signature/OutboundSignature");
+//		System.out.println("destPath:" + destPath);
+//		System.out.println("base64Str:" + base64Str);
 
-		Rdrecord rdrecord = setRdrecordValue(data, "Rdrecord");
+//
+//	}
+		String base64Str = data[0].getBase64Str();
+		String destPath = session.getServletContext().getRealPath("img/signature/OutboundSignature");
+		int lastFile = rdrecordService.getLastFile() + 1;
+		ImageUtil.base64ToFile(destPath, base64Str, lastFile+".svg");
+		
+		Rdrecord rdrecord = setRdrecordValue(data, "Rdrecord", lastFile);
 		rdrecordService.updateRdrecord(rdrecord, 0);
 
-		Rdrecord myRdrecord = setRdrecordValue(data, "My_Rdrecord");
+		Rdrecord myRdrecord = setRdrecordValue(data, "My_Rdrecord", lastFile);
 		myRdrecordService.updateRdrecord(myRdrecord, 0);
 
 		for (int i = 0; i < data.length; i++) {
@@ -85,9 +102,11 @@ public class BitrhMaterialOutStockServiceImpl implements BitrhMaterialOutStockSe
 		return "出库成功";
 	}
 
-	private Rdrecord setRdrecordValue(PP_Podetails[] data, String object) {
+	private Rdrecord setRdrecordValue(PP_Podetails[] data, String object,int lastFile) {
 		Rdrecord rdrecord = new Rdrecord();
 		String cCode = data[0].getcCode();
+
+		
 		int isExists = 0;
 		int minMainId = data[0].getMainId();
 		for (int i = 1; i < data.length; i++) {
@@ -98,12 +117,14 @@ public class BitrhMaterialOutStockServiceImpl implements BitrhMaterialOutStockSe
 				minMainId = data[i].getMainId();
 			}
 		}
+		System.out.println("2这是我的自定义8="+rdrecord.getcDefine8());
+		
 		if (isExists == 0) {
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("ppOutMainId", minMainId);
 			rdrecord = pp_ProductPOMapper.getPp_Product(param);
 		}
-
+		
 		rdrecord.setcBusType("领料");
 		rdrecord.setcSource("生产订单");
 		rdrecord.setcWhCode(data[0].getcWhCode());
@@ -115,7 +136,9 @@ public class BitrhMaterialOutStockServiceImpl implements BitrhMaterialOutStockSe
 		rdrecord.setcDepCode(data[0].getcDepCode());
 		rdrecord.setcMaker(data[0].getcMaker());
 		rdrecord.setcMemo(data[0].getcMemo());
+		rdrecord.setcDefine8(String.valueOf(lastFile));
 
+		
 		Rdrecord infoID = new Rdrecord();
 		if (object.equals("Rdrecord")) {
 			infoID = rdrecordMapper.getLastInfo(null);
@@ -151,6 +174,7 @@ public class BitrhMaterialOutStockServiceImpl implements BitrhMaterialOutStockSe
 
 		}
 		rdrecord.setStartID(rdrecord.getiD());
+		System.out.println("5这是我的自定义8="+rdrecord.getcDefine8());
 		System.out.println(JSONObject.toJSONString(rdrecord, SerializerFeature.WriteMapNullValue));
 		return rdrecord;
 	}

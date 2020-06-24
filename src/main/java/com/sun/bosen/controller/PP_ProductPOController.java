@@ -1,10 +1,12 @@
 package com.sun.bosen.controller;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import com.sun.bosen.service.BirthProductionWarehousingService;
 import com.sun.bosen.service.PP_PodetailsService;
 import com.sun.bosen.service.PP_PomainService;
 import com.sun.bosen.service.PP_ProductPOService;
+import com.sun.bosen.util.ImageUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext.xml")
@@ -41,9 +44,9 @@ public class PP_ProductPOController {
 	
 	@ResponseBody
 	@RequestMapping("/listPP_ProductPO")
-	public List<PP_ProductPO> listPP_ProductPO(boolean bFinished, int endId, boolean detailsFinshed, HttpServletResponse req, HttpServletRequest res)
+	public List<PP_ProductPO> listPP_ProductPO(boolean bFinished, int endId, boolean detailsFinshed, String cDepName, String productionCode,HttpServletResponse req, HttpServletRequest res)
 			throws UnsupportedEncodingException {
-		List<PP_ProductPO> list = pp_ProductPOService.list(bFinished, endId, detailsFinshed);
+		List<PP_ProductPO> list = pp_ProductPOService.list(bFinished, endId, detailsFinshed, cDepName, productionCode);
 		System.out.println(JSONObject.toJSONString(list));
 		return list;
 	}
@@ -68,10 +71,12 @@ public class PP_ProductPOController {
 	@ResponseBody
 	@RequestMapping("/submitpp_Pomain")
 	public String submitpp_Pomain(@RequestBody PP_Pomain[] data) {
-		System.out.println(JSONObject.toJSONString(data[0].getiUnitCost()));
+		System.out.println(JSONObject.toJSONString(data));
 		return birthproductionWarehousingService.add(data);
 //		return "123";
 	}
+	
+
 	
 
 	

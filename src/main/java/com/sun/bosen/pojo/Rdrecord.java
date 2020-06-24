@@ -28,7 +28,14 @@ public class Rdrecord {
 	private String dVeriDate;
 	private String cDefine16;
 	private float iMQuantity;//产量
+	private String cDefine8;//签名文件
 	
+	public String getcDefine8() {
+		return cDefine8;
+	}
+	public void setcDefine8(String cDefine8) {
+		this.cDefine8 = cDefine8;
+	}
 	public float getiMQuantity() {
 		return iMQuantity;
 	}

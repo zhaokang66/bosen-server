@@ -171,18 +171,16 @@ public class BirthProductionWarehousingServiceImpl implements BirthProductionWar
 		rdrecords.setiPrice(data.getiPrice());
 		rdrecords.setiMPoIds(data.getMainId());
 		int lastAutoID = (rdrecordsMapper.getLastInfoId() == null) ? 0 : rdrecordsMapper.getLastInfoId();
-		if (!data.getProductionCode().equals(null)) {
-			rdrecords.setcDefine22(data.getProductionCode());
+
+		rdrecords.setcDefine22(data.getProductionCode());
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("ID", data.getId());
+		if (object.equals("Rdrecords")) {
+			rdrecords.setiD(rdrecordService.getRdrecordId(param));
+			rdrecords.setAutoId(lastAutoID + 1);
+		} else if (object.equals("MyRdrecords")) {
+			rdrecords.setiD(myRdrecordService.getRdrecordId(param));
 		}
-	
-			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("ID", data.getId());
-			if (object.equals("Rdrecords")) {
-				rdrecords.setiD(rdrecordService.getRdrecordId(param));
-				rdrecords.setAutoId(lastAutoID + 1);
-			} else if (object.equals("MyRdrecords")) {
-				rdrecords.setiD(myRdrecordService.getRdrecordId(param));
-			}
 		System.out.println("这个是Rdrecords数据");
 		System.out.println(JSONObject.toJSONString(rdrecords, SerializerFeature.WriteMapNullValue));
 		return rdrecords;

@@ -14,7 +14,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.sun.bosen.pojo.Warehouse;
 import com.sun.bosen.service.WarehouseService;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext.xml")
 @Controller
@@ -31,6 +30,5 @@ public class WareHouseController {
 		System.out.println(JSONObject.toJSONString(list));
 		return list;
 	}
-	
 	
 }

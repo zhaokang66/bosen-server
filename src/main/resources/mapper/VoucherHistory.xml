@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.sun.bosen.mapper.VoucherHistoryMapper">    
+       
+        
+        
+        <select id="selectOtherCcode" resultType="int" parameterType="String">
+        	select cNumber from VoucherHistory where CardNumber=#{args}
+        </select>
+        
+        <update id="updateOtherCcode" flushCache="true" parameterType="String">
+			update VoucherHistory set cNumber=cNumber+1 where CardNumber=#{args}
+        </update>
+    </mapper>

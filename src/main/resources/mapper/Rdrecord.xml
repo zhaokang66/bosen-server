@@ -25,7 +25,7 @@
 		insert into Rdrecord (
 			ID,bRdFlag,cVouchType,cBusType,cSource,cWhCode,cRdCode,cDepCode,cPersonCode,
 			cPTCode,cVenCode,cMemo,VT_ID,dDate,cCode,cOrderCode,cMaker,ipurorderid,
-			cAccountPDate,cMPoCode,cPsPcode,iproorderid,dVeriDate,cHandler,cDefine16,iMQuantity
+			cAccountPDate,cMPoCode,cPsPcode,iproorderid,cDefine16,iMQuantity,cDefine8
 		)
 		values(
 			#{iD},#{bRdFlag},#{cVouchType},#{cBusType},#{cSource},#{cWhCode},#{cRdCode},#{cDepCode},
@@ -34,8 +34,9 @@
 			#{cAccountPDate},
 			#{cMPoCode},#{cPsPcode},
 			(CASE WHEN #{iproorderid} != 0 then #{iproorderid} END),
-			#{dVeriDate},#{cHandler},#{cDefine16},
-			(CASE WHEN #{iMQuantity} != 0 then #{iMQuantity} END)
+			#{cDefine16},
+			(CASE WHEN #{iMQuantity} != 0 then #{iMQuantity} END),
+			#{cDefine8}
 		)
 
 	</select>
@@ -91,5 +92,37 @@
 		order by ID desc
 	</select>
 
-
+	<select id="getLastFile" resultType="int">
+		select ISNULL(max(CAST(cDefine8 as int)),1) as cDefine8 from RdRecord
+	</select>
+	
+	<select id="rdrecordList" resultType="OutboundList" parameterType="String">
+		select
+		Rdrecord.ID as iD,Rdrecord.cDefine8,
+			Inventory.cInvCode,Inventory.cInvName,Inventory.cInvStd,ComputationUnit.cComUnitName,
+			Rdrecords.iQuantity,Rdrecords.iUnitCost,Rdrecords.cDefine22,CONVERT(varchar(12) ,Rdrecord.dDate, 102) as 'dDate',
+			Rdrecord.cCode,RdRecords.cDefine22,
+			Department.cDepName,Warehouse.cWhName		
+		 from Rdrecord 
+		 left join Rdrecords on Rdrecord.ID=Rdrecords.ID
+		 left join Inventory on Rdrecords.cInvCode=Inventory.cInvCode
+		 left join Department on Department.cDepCode=Rdrecord.cDepCode
+		 left join Warehouse on Warehouse.cWhCode=Rdrecord.cWhCode
+		 left join ComputationUnit on Inventory.cComunitCode=ComputationUnit.cComunitCode
+		<where>
+			<if test="cBusType!=null">
+				and cBusType=#{cBusType}
+			</if>
+		</where>
+	</select>
+	
+	<select id="isVerify" parameterType="int" resultType="String">
+		select cHandler from Rdrecord where ID=#{id}
+	</select>
+	
+	<delete id="deleteList" parameterType="int">
+		delete from Rdrecords where ID=#{id};
+		delete from Rdrecord where ID=#{id}
+	</delete>
+	
 </mapper>

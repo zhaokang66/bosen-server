@@ -15,6 +15,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.sun.bosen.mapper.MyRdrecordMapper;
 import com.sun.bosen.mapper.RdrecordMapper;
 import com.sun.bosen.mapper.RdrecordsMapper;
+import com.sun.bosen.mapper.VoucherHistoryMapper;
 import com.sun.bosen.pojo.Other;
 import com.sun.bosen.pojo.Rdrecord;
 import com.sun.bosen.pojo.Rdrecords;
@@ -46,6 +47,8 @@ public class BirthOtherWarehousingServiceImpl implements BirthOtherWarehousingSe
 	RdrecordsMapper rdrecordsMapper;
 	@Autowired
 	CurrentStockService currentStockService;
+	@Autowired
+	VoucherHistoryMapper voucherHistoryMapper;
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_UNCOMMITTED, rollbackForClassName = "Exception")
@@ -64,7 +67,7 @@ public class BirthOtherWarehousingServiceImpl implements BirthOtherWarehousingSe
 			
 			Rdrecords myRdrecords = setRdrecordsValue(data[i], "My_Rdrecords");
 			myRdrecordsService.updateRdrecords(myRdrecords);
-			
+			voucherHistoryMapper.updateOtherCcode("0301");
 			rdrecordService.updateUfs();
 		}
 		return "入库成功！";
@@ -78,36 +81,23 @@ public class BirthOtherWarehousingServiceImpl implements BirthOtherWarehousingSe
 		rdrecord.setcSource("库存");
 		rdrecord.setvT_ID(67);
 		rdrecord.setcDefine16("0");
+		int lastOtherCcode = voucherHistoryMapper.selectOtherCcode("0301");
+		System.out.println("初始值是："+lastOtherCcode);
+		rdrecord.setcCode(String.format("%010d", lastOtherCcode+1));
 		Rdrecord infoID = new Rdrecord();
 		if (object.equals("Rdrecord")) {
 			infoID = rdrecordMapper.getLastInfo(null);
 			if (infoID == null) {
 				rdrecord.setiD(0);
-				rdrecord.setcCode(String.format("%010d", 1));
 			} else {
 				rdrecord.setiD(infoID.getiD() + 1);
-				Rdrecord info = rdrecordMapper.getLastInfo(rdrecord.getcBusType());
-				if (info == null) {
-					System.out.println("当前查询结果为空！");
-					rdrecord.setcCode(String.format("%010d", 1));
-				} else {
-					rdrecord.setcCode(String.format("%010d", Integer.parseInt(info.getcCode()) + 1));
-				}
 			}
 		} else if (object.equals("My_Rdrecord")) {
 			infoID = myRdrecordMapper.getLastInfo(null);
 			if (infoID == null) {
 				rdrecord.setiD(0);
-				rdrecord.setcCode(String.format("%010d", 1));
 			} else {
 				rdrecord.setiD(infoID.getiD() + 1);
-				Rdrecord info = myRdrecordMapper.getLastInfo(rdrecord.getcBusType());
-				if (info == null) {
-					System.out.println("当前查询结果为空！");
-					rdrecord.setcCode(String.format("%010d", 1));
-				} else {
-					rdrecord.setcCode(String.format("%010d", Integer.parseInt(info.getcCode()) + 1));
-				}
 			}
 		}
 		rdrecord.setStartID(rdrecord.getiD());
