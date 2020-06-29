@@ -42,6 +42,9 @@
 				<if test="!detailsFinshed">
 					and PP_PODetails.fQuantity > ISNULL(PP_PODetails.fOutQuantity,0)
 				</if>
+				<if test="detailsFinshed">
+					and PP_PODetails.fOutQuantity!=0
+				</if>
 			</where>
         </select>
         

@@ -17,9 +17,11 @@ public class PP_PodetailsServiceImpl implements PP_PodetailsService {
 	@Autowired
 	PP_PodetailsMapper pp_PodetailsMapper;
 	@Override
-	public List<PP_Podetails> list(Integer mainId) {
+	public List<PP_Podetails> list(Integer mainId, boolean detailsFinshed) {
 		Map<String, Object> param= new HashMap<String, Object>();
 		param.put("mainId", mainId);
+		param.put("detailsFinshed", detailsFinshed);
+		System.out.println("mk+++++++++++++++++++++++++l"+param);
 		return pp_PodetailsMapper.list(param);
 	}
 	@Override

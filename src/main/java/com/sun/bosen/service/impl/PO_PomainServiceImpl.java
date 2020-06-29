@@ -18,10 +18,13 @@ public class PO_PomainServiceImpl implements PO_PomainService {
 	PO_PomainMapper po_PomainMapper;
 	
 	@Override
-	public List<PO_Pomain> list(boolean bFinished,int endId) {
+	public List<PO_Pomain> list(boolean bFinished,int endId, String orderNumber, String supplier) {
 		Map<String, Object> param= new HashMap<String, Object>();
 		param.put("bFinished", bFinished);
 		param.put("endId", endId);
+		param.put("orderNumber", orderNumber);
+		param.put("supplier", supplier);
+		System.out.println(param);
 		return po_PomainMapper.list(param);
 	}
 

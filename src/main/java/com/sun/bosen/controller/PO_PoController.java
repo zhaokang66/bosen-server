@@ -38,6 +38,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -75,10 +76,13 @@ public class PO_PoController {
 
 	@ResponseBody
 	@RequestMapping("/listPO_Pomain")
-	public List<PO_Pomain> listPO_Pomain(boolean bFinished, int endId, HttpServletResponse req, HttpServletRequest res)
+	public List<PO_Pomain> listPO_Pomain(boolean bFinished, int endId,
+			String orderNumber, String supplier, 
+			HttpServletResponse req, HttpServletRequest res)
 			throws UnsupportedEncodingException {
 
-		List<PO_Pomain> list = po_PomainService.list(bFinished, endId);
+		System.out.println(supplier);
+		List<PO_Pomain> list = po_PomainService.list(bFinished, endId, orderNumber, supplier);
 		System.out.println(JSONObject.toJSONString(list));
 		System.out.println(JSONObject.DEFAULT_GENERATE_FEATURE);
 		
@@ -111,11 +115,11 @@ public class PO_PoController {
 		return birthWarehousingService.add(data);	
 	}
 
-	public void test() {
-		List<PO_Pomain> list = po_PomainService.list(false, -1);
-		System.out.println(JSONObject.toJSONString(list));
-
-	}
+//	public void test() {
+//		List<PO_Pomain> list = po_PomainService.list(false, -1);
+//		System.out.println(JSONObject.toJSONString(list));
+//
+//	}
 
 	public boolean GenerateImage(String imgData, String imgFilePath) throws IOException { // 对字节数组字符串进行Base64解码并生成图片
 		if (imgData == null) // 图像数据为空

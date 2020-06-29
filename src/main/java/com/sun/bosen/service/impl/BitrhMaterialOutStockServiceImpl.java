@@ -66,13 +66,6 @@ public class BitrhMaterialOutStockServiceImpl implements BitrhMaterialOutStockSe
 	public String add(HttpSession session,PP_Podetails[] data) throws IOException {
 		
 		//生成签名
-//		public void add(HttpSession session, String base64Str, String ) throws IOException {
-//		String destPath = session.getServletContext().getRealPath("img/signature/OutboundSignature");
-//		System.out.println("destPath:" + destPath);
-//		System.out.println("base64Str:" + base64Str);
-
-//
-//	}
 		String base64Str = data[0].getBase64Str();
 		String destPath = session.getServletContext().getRealPath("img/signature/OutboundSignature");
 		int lastFile = rdrecordService.getLastFile() + 1;

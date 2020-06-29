@@ -23,10 +23,10 @@
             	    and PP_ProductPO.ID &lt; #{endId}
             	</if>
             	
-            	<if test="cDepName!=''">
-            		and PP_ProductPO.cDepCode = (select cDepCode from Department where Department.cDepName=#{cDepName})
+            	<if test="cDepName!='' and cDepName!=null">
+            		and PP_ProductPO.cDepCode = (select cDepCode from Department where Department.cDepName like '%${cDepName}%')
             	</if>
-            	<if test="productionCode!=''">
+            	<if test="productionCode!='' and productionCode!=null ">
             		and PP_POMain.cDefine22=#{productionCode}
             	</if>
             <!--  	and PP_POMain.cClose is null-->

@@ -6,7 +6,7 @@ import com.sun.bosen.pojo.PP_Podetails;
 
 public interface PP_PodetailsService {
 
-	List<PP_Podetails> list(Integer mainId);
+	List<PP_Podetails> list(Integer mainId, boolean detailsFinshed);
 
 	void updatefOutQuantity(PP_Podetails pp_Podetails);
 
