@@ -14,6 +14,11 @@
         	<result column="cCode" property="cCode"/>
         	<result column="cMarker" property="cMarker"/>
         	<result column="cDepCode" property="cDepCode"/>
+        	<result column="cDepName" property="cdepname"/>
+        	<result column="cdepcode" property="cdepcode"/>
+        	<result column="librarian" property="librarian"/>
+        	<result column="tdQtyD" property="tdQtyD"/>
+        	<result column="ipsquantity" property="ipsquantity"/>
         	<association property="inventory" javaType="Inventory">
         		<result column="cInvCode" property="cInvCode"/>
         		<result column="cInvName" property="cInvName"/>
@@ -27,24 +32,33 @@
         </resultMap>
         
         <select id="list" resultMap="PP_PodetailsBean">
-			select PP_PODetails.cDefine22,PP_PODetails.MainID,PP_PODetails.SubID,PP_PODetails.fQuantity,
-			Inventory.cInvCode,Inventory.cInvName,Inventory.cInvStd,Inventory.cInvAddCode
-			,ComputationUnit.cComunitName,PP_PODetails.fOutQuantity,PP_ProductPO.cCode,PP_ProductPO.cMaker,PP_ProductPO.cDepCode
+			select PP_PODetails.cDefine22,PP_PODetails.MainID,PP_PODetails.SubID,PP_PODetails.fQuantity,Inventory.cInvDefine8 as librarian,
+			Inventory.cInvCode,Inventory.cInvName,Inventory.cInvStd,Inventory.cInvAddCode,Department.cDepName,Department.cdepcode,
+			ComputationUnit.cComunitName,PP_PODetails.fOutQuantity,PP_ProductPO.cCode,PP_ProductPO.cMaker,PP_ProductPO.cDepCode,
+			PP_PODetails.tdQtyD,PP_PODetails.ipsquantity
 			from PP_PODetails
 			left join Inventory on Inventory.cInvCode=PP_PODetails.cInvCode
 			left join ComputationUnit on Inventory.cComunitCode=ComputationUnit.cComunitCode
 			left join PP_POMain on  PP_POMain.MainId=PP_PODetails.MainID
 			left join PP_ProductPO on PP_ProductPO.ID=PP_POMain.ID
+			left join Department on Department.cDepCode=PP_PODetails.cdepcode
 			<where>
 				<if test="mainId!=null">
 					and PP_PODetails.MainID=#{mainId}
 				</if>
-				<if test="!detailsFinshed">
+				<if test="detailsFinshed!=null and !detailsFinshed">
 					and PP_PODetails.fQuantity > ISNULL(PP_PODetails.fOutQuantity,0)
 				</if>
-				<if test="detailsFinshed">
+				<if test="detailsFinshed!=null and detailsFinshed">
 					and PP_PODetails.fOutQuantity!=0
 				</if>
+				<if test="cDepCode != null and cDepCode!=''">
+				and PP_PODetails.cdepcode=#{cDepCode}
+				</if>
+				<if test="productionCode != null and productionCode!=''">
+				and PP_POMain.cDefine22 like '%${productionCode}%'
+				</if>
+				and PP_POMain.cClose is null and PP_ProductPO.cVerifier is not null
 			</where>
         </select>
         

@@ -11,4 +11,6 @@ public interface PP_PodetailsMapper {
 
 	void updatefOutQuantity(PP_Podetails pp_Podetails);
 
+	List<PP_Podetails> selectData(Map<String, Object> param);
+
 }

@@ -20,5 +20,9 @@
 					fTransOutQuantity,fPlanQuantity,fDisableQuantity,fAvaQuantity,iMassDate)
 					 values (#{cWhCode},#{cInvCode},#{nowiReceivedQTY},0,0,0,0,0,0,0,NULL)
         </select>
+        
+        <select id="getInStock" resultType="BigDecimal">
+        	select iQuantity from CurrentStock where cWhCode=#{cWhCode} and cInvCode=#{cInvCode}
+        </select>
 
     </mapper>

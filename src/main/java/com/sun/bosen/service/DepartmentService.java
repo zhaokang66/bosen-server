@@ -6,6 +6,6 @@ import com.sun.bosen.pojo.Department;
 
 public interface DepartmentService {
 
-	List<Department> getDepartment();
+	List<Department> getDepartment(int type);
 
 }

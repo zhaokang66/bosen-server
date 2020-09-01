@@ -22,6 +22,77 @@ public class Rdrecords {
 	private String cDefine27;
 	private String cCBGJDXCode;
 	private String cBVencode;
+	private float fQuantity;//本次出库数量
+	private String cInvStd;
+	private String cInvName;
+	private String cComunitName;
+	private String cMemo;
+	
+	private String cWhCode;
+	private String cRdCode;
+	private String cDepCode;
+	private String base64Str;
+	
+	public String getBase64Str() {
+		return base64Str;
+	}
+	public void setBase64Str(String base64Str) {
+		this.base64Str = base64Str;
+	}
+	public String getcWhCode() {
+		return cWhCode;
+	}
+	public void setcWhCode(String cWhCode) {
+		this.cWhCode = cWhCode;
+	}
+	public String getcRdCode() {
+		return cRdCode;
+	}
+	public void setcRdCode(String cRdCode) {
+		this.cRdCode = cRdCode;
+	}
+	public String getcDepCode() {
+		return cDepCode;
+	}
+	public void setcDepCode(String cDepCode) {
+		this.cDepCode = cDepCode;
+	}
+	public float getfQuantity() {
+		return fQuantity;
+	}
+	public void setfQuantity(float fQuantity) {
+		this.fQuantity = fQuantity;
+	}
+	public String getcMemo() {
+		return cMemo;
+	}
+	public void setcMemo(String cMemo) {
+		this.cMemo = cMemo;
+	}
+	public String getcInvStd() {
+		return cInvStd;
+	}
+	public void setcInvStd(String cInvStd) {
+		this.cInvStd = cInvStd;
+	}
+	public String getcInvName() {
+		return cInvName;
+	}
+	public void setcInvName(String cInvName) {
+		this.cInvName = cInvName;
+	}
+	public String getcComunitName() {
+		return cComunitName;
+	}
+	public void setcComunitName(String cComunitName) {
+		this.cComunitName = cComunitName;
+	}
+	public float getNowfQuantity() {
+		return fQuantity;
+	}
+	public void setNowfQuantity(float fQuantity) {
+		this.fQuantity = fQuantity;
+	}
 	public String getcBVencode() {
 		return cBVencode;
 	}
@@ -168,6 +239,21 @@ public class Rdrecords {
 	public float getiSum() {
 		return iSum;
 	}
+	@Override
+	public String toString() {
+		return "Rdrecords [autoId=" + autoId + ", iD=" + iD + ", cInvCode=" + cInvCode + ", iQuantity=" + iQuantity
+				+ ", iUnitCost=" + iUnitCost + ", iPrice=" + iPrice + ", iAPrice=" + iAPrice + ", cDefine25="
+				+ cDefine25 + ", iPOsID=" + iPOsID + ", fACost=" + fACost + ", iNQuantity=" + iNQuantity + ", iTaxCost="
+				+ iTaxCost + ", iTaxPrice=" + iTaxPrice + ", iTaxRate=" + iTaxRate + ", iSum=" + iSum + ", cDefine22="
+				+ cDefine22 + ", iMPoIds=" + iMPoIds + ", cDefine26=" + cDefine26 + ", cDefine27=" + cDefine27
+				+ ", cCBGJDXCode=" + cCBGJDXCode + ", cBVencode=" + cBVencode + ", fQuantity=" + fQuantity
+				+ ", cInvStd=" + cInvStd + ", cInvName=" + cInvName + ", cComunitName=" + cComunitName + ", cMemo="
+				+ cMemo + ", cWhCode=" + cWhCode + ", cRdCode=" + cRdCode + ", cDepCode=" + cDepCode + ", base64Str="
+				+ base64Str + ", ccbgjdxname=" + ccbgjdxname + "]";
+	}
+
+
+	
 	
 	
 }

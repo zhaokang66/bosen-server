@@ -16,9 +16,9 @@ public class DepartmentServiceImpl  implements DepartmentService {
 	DepartmentMapper departmentMapper;
 	
 	@Override
-	public List<Department> getDepartment() {
+	public List<Department> getDepartment(int type) {
 		
-		return departmentMapper.getDepartment();
+		return departmentMapper.getDepartment(type);
 	}
 
 }

@@ -34,7 +34,7 @@
         			and PO_Pomain.cPOID=right('0000000000'+#{orderNumber},10)
         		</if>
         		<if test="supplier!='' and supplier!=null">
-        		   and PO_Pomain.cVenCode=(select cVenCode from Vendor where cVenName like '%${supplier}%')
+        		   and PO_Pomain.cVenCode in (select cVenCode from Vendor where cVenName like '%${supplier}%')
         		</if>
             	and PO_Pomain.cCloser is null
             </where>

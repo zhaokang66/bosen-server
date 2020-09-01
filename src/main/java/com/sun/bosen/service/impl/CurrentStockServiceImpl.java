@@ -1,6 +1,7 @@
 package com.sun.bosen.service.impl;
 
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +28,15 @@ public class CurrentStockServiceImpl implements CurrentStockService{
 		}else {
 			currentStackMapper.addCurrentStock(param);
 		}		
+	}
+
+	@Override
+	public BigDecimal getInStock(String cWhCode, String cInvCode) {
+		Map<String, Object> param= new HashMap<String, Object>();
+		param.put("cWhCode", cWhCode);
+		param.put("cInvCode", cInvCode);
+		// TODO Auto-generated method stub
+		return currentStackMapper.getInStock(param);
 	}  
 
 }

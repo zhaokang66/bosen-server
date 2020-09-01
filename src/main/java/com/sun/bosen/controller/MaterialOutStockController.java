@@ -2,6 +2,7 @@ package com.sun.bosen.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.sun.bosen.pojo.OutboundList;
 import com.sun.bosen.pojo.PP_Podetails;
+import com.sun.bosen.pojo.Rdrecords;
+import com.sun.bosen.pojo.User_Task;
 import com.sun.bosen.service.BitrhMaterialOutStockService;
 import com.sun.bosen.service.RdrecordService;
 
@@ -33,22 +36,31 @@ public class MaterialOutStockController {
 	
 	@ResponseBody
 	@RequestMapping("/submitpp_Podetails")
-	public String submitpp_Podetails(HttpSession session,@RequestBody PP_Podetails[] data) throws IOException {
+	public String submitpp_Podetails(HttpSession session, @RequestBody PP_Podetails[] data) throws IOException {
 		
-		System.out.println(JSONObject.toJSONString(data));
 		return bitrhMaterialOutStockService.add(session,data);
 	}
 	
 	@ResponseBody
 	@RequestMapping("/rdrecordList")
-	public List<OutboundList> rdrecordList(String cBusType) {
-		List<OutboundList> list = rdrecordService.rdrecordList(cBusType);
+	public List<OutboundList> rdrecordList(String cBusType, int endId) {
+		List<OutboundList> list = rdrecordService.rdrecordList(cBusType ,endId);
 		return list;
 	}
 	@ResponseBody
 	@RequestMapping("deleteList")
 	public String deleteList(int id) {
 		return rdrecordService.deleteList(id);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/submitOtherMaterial")
+	public String submitOtherMaterial(HttpSession session, @RequestBody Rdrecords[] data) throws IOException {
+		
+		for(Rdrecords v :data){
+			System.out.println(v);
+		}
+		return bitrhMaterialOutStockService.submitOtherMaterial(session, data);
 	}
 	
 }

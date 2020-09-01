@@ -8,28 +8,35 @@
         select distinct  top 100 PP_ProductPO.ID,PP_ProductPO.cCode,
             convert(varchar(50),PP_ProductPO.dDate,23) as dDate,Department.cDepName,
             PP_ProductPO.cMemo from   
-            PP_ProductPO left join PP_POMain on PP_POMain.ID=PP_ProductPO.ID
+            PP_ProductPO 
+            left join PP_POMain on PP_POMain.ID=PP_ProductPO.ID
             left join Department on Department.cDepCode=PP_ProductPO.cDepCode
             left join PP_PODetails on PP_PODetails.MainID=PP_POMain.MainID
             <where>
             	<if test="!bFinished">
             		and PP_POMain.fQuantity > PP_POMain.fInQuantity
             	</if>
-            	<if test="!detailsFinshed">
-            		and PP_PODetails.fQuantity > PP_PODetails.fOutQuantity
-            	</if>
-            	
+            	<if test="detailsFinshed!=null and !detailsFinshed">
+					and PP_PODetails.fQuantity > ISNULL(PP_PODetails.fOutQuantity,0)
+				</if>
+          	
+          	<if test="detailsFinshed!=null and detailsFinshed">
+					and PP_PODetails.fOutQuantity!=0
+				</if>
             	<if test="endId!=-1">
             	    and PP_ProductPO.ID &lt; #{endId}
             	</if>
             	
-            	<if test="cDepName!='' and cDepName!=null">
-            		and PP_ProductPO.cDepCode = (select cDepCode from Department where Department.cDepName like '%${cDepName}%')
+            	<if test="cDepCode!='' and cDepCode!=null">
+            		and PP_PODetails.cdepcode=#{cDepCode}
             	</if>
             	<if test="productionCode!='' and productionCode!=null ">
-            		and PP_POMain.cDefine22=#{productionCode}
+            		and PP_POMain.cDefine22 like '%${productionCode}%'
             	</if>
-            <!--  	and PP_POMain.cClose is null-->
+            	<if test="cWhCode!='' and cWhCode!=null">
+            		and PP_PODetails.cwhcode=#{cWhCode}
+            	</if>
+            and PP_POMain.cClose is null and PP_ProductPO.cVerifier is not null
             </where>
             order by PP_ProductPO.ID desc
         </select>
@@ -39,12 +46,10 @@
         		<when test="ppInMainId!=null">
         			select 
 	        			PP_ProductPO.cCode as cMPoCode,
-	        			PP_ProductPO.cVerifier as cHandler,
 	        			PP_ProductPO.cMemo,
-	        			PP_ProductPO.dCheckDate as dVeriDate,
 	        			PP_ProductPO.ID as iproorderid,
 	        			PP_POMain.cInvCode as cPsPcode
-	        			
+	        		
 	        		from PP_ProductPO
 	        		left join PP_POMain on PP_ProductPO.ID=PP_POMain.ID
         			where PP_POMain.MainId=#{ppInMainId}

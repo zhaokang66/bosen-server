@@ -44,16 +44,24 @@
         		<if test="ID!=null">
         			and PP_POMAin.ID=#{ID}
         		</if>
-        		<if test="!detailsFinshed">
-        			and PP_PODetails.fQuantity > PP_PODetails.fOutQuantity
-        		</if>
+        		<if test="detailsFinshed!=null and !detailsFinshed">
+					and PP_PODetails.fQuantity > ISNULL(PP_PODetails.fOutQuantity,0)
+				</if>
         		<if test="!bFinished">
         			and PP_POMAin.fQuantity > PP_POMain.fInQuantity 
-        		</if>    
-        		<if test="bFinished">
-        			and PP_POMain.fInQuantity!=0
-        		</if>    	
+        		</if> 
+        		<if test="detailsFinshed!=null and detailsFinshed">
+					and PP_PODetails.fOutQuantity!=0
+				</if> 
+        		<if test="productionCode != null and productionCode!=''">
+        			and PP_POMain.cDefine22 like '%${productionCode}%'
+        		</if>
+        		<if test="cdepcode != null and cdepcode!=''">
+        			and PP_PODetails.cdepcode =#{cdepcode}
+        		</if>     
+        		and PP_POMain.cClose is null and PP_ProductPO.cVerifier is not null	
         	</where>
+        	
         </select>
         
         <select id="updatefInQuantity">

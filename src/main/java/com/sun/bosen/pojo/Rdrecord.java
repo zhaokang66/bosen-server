@@ -200,6 +200,17 @@ public class Rdrecord {
 	public String getcAccountPDate() {
 		return cAccountPDate;
 	}
+	@Override
+	public String toString() {
+		return "Rdrecord [iD=" + iD + ", bRdFlag=" + bRdFlag + ", cVouchType=" + cVouchType + ", cBusType=" + cBusType
+				+ ", iPurorderid=" + iPurorderid + ", cSource=" + cSource + ", cWhCode=" + cWhCode + ", dDate=" + dDate
+				+ ", startID=" + startID + ", cCode=" + cCode + ", cRdCode=" + cRdCode + ", cDepCode=" + cDepCode
+				+ ", cPersonCode=" + cPersonCode + ", cPtCode=" + cPtCode + ", cVenCode=" + cVenCode + ", cOrderCode="
+				+ cOrderCode + ", cMemo=" + cMemo + ", vT_ID=" + vT_ID + ", cMaker=" + cMaker + ", cAccountPDate="
+				+ cAccountPDate + ", cHandler=" + cHandler + ", cMPoCode=" + cMPoCode + ", cPsPcode=" + cPsPcode
+				+ ", iproorderid=" + iproorderid + ", dVeriDate=" + dVeriDate + ", cDefine16=" + cDefine16
+				+ ", iMQuantity=" + iMQuantity + ", cDefine8=" + cDefine8 + "]";
+	}
 	
 	
 	

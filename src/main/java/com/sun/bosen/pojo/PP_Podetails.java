@@ -17,6 +17,56 @@ public class PP_Podetails {
 	private String cDepCode;
 	private String cMaker;
 	private String base64Str;
+	private String cdepcode;//子件组别代码
+	private String cdepname;//子件组别名称
+	private String librarian;//库管员
+	private String taskId;
+	private int needOutNumber;
+	private float tdQtyD;//分母配比用量
+	private float ipsquantity;//分子配比用料
+	
+	public float getTdQtyD() {
+		return tdQtyD;
+	}
+	public void setTdQtyD(float tdQtyD) {
+		this.tdQtyD = tdQtyD;
+	}
+	public float getIpsquantity() {
+		return ipsquantity;
+	}
+	public void setIpsquantity(float ipsquantity) {
+		this.ipsquantity = ipsquantity;
+	}
+	public int getNeedOutNumber() {
+		return needOutNumber;
+	}
+	public void setNeedOutNumber(int needOutNumber) {
+		this.needOutNumber = needOutNumber;
+	}
+	public String getTaskId() {
+		return taskId;
+	}
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
+	}
+	public String getLibrarian() {
+		return librarian;
+	}
+	public void setLibrarian(String librarian) {
+		this.librarian = librarian;
+	}
+	public String getCdepcode() {
+		return cdepcode;
+	}
+	public void setCdepcode(String cdepcode) {
+		this.cdepcode = cdepcode;
+	}
+	public String getCdepname() {
+		return cdepname;
+	}
+	public void setCdepname(String cdepname) {
+		this.cdepname = cdepname;
+	}
 	public String getBase64Str() {
 		return base64Str;
 	}
@@ -114,5 +164,15 @@ public class PP_Podetails {
 	public void setfQuantity(float fQuantity) {
 		this.fQuantity = fQuantity;
 	}
+	@Override
+	public String toString() {
+		return "PP_Podetails [mainId=" + mainId + ", subId=" + subId + ", cDefine22=" + cDefine22 + ", inventory="
+				+ inventory + ", fQuantity=" + fQuantity + ", fOutQuantity=" + fOutQuantity + ", nowfOutQuantity="
+				+ nowfOutQuantity + ", cWhCode=" + cWhCode + ", iUnitCost=" + iUnitCost + ", iPrice=" + iPrice
+				+ ", cMemo=" + cMemo + ", cRdCode=" + cRdCode + ", cCode=" + cCode + ", cDepCode=" + cDepCode
+				+ ", cMaker=" + cMaker + ", base64Str=" + base64Str + ", cdepcode=" + cdepcode + ", cdepname="
+				+ cdepname + ", librarian=" + librarian + "]";
+	}
+	
 	
 }

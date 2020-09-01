@@ -2,6 +2,8 @@ package com.sun.bosen.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +23,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.sun.bosen.pojo.PP_Podetails;
 import com.sun.bosen.pojo.PP_Pomain;
 import com.sun.bosen.pojo.PP_ProductPO;
+import com.sun.bosen.pojo.Rdrecords;
 import com.sun.bosen.service.BirthPurchaseWarehousingService;
+import com.sun.bosen.service.CurrentStockService;
 import com.sun.bosen.service.BirthProductionWarehousingService;
 import com.sun.bosen.service.PP_PodetailsService;
 import com.sun.bosen.service.PP_PomainService;
@@ -42,24 +46,26 @@ public class PP_ProductPOController {
 	BirthProductionWarehousingService birthproductionWarehousingService;
 	@Autowired
 	PP_PodetailsService pp_PodetailsService;
+	@Autowired
+	CurrentStockService currentStockService;
 	
 	@ResponseBody
 	@RequestMapping("/listPP_ProductPO")
 	public List<PP_ProductPO> listPP_ProductPO(boolean bFinished, int endId, boolean detailsFinshed, 
-			//部门、生产编号给默认值，方便mapper中进行判断，否则会为null
-			String cDepName, String productionCode,
+			String cDepCode, String productionCode,String cWhCode,
 			HttpServletResponse req, HttpServletRequest res)
 			throws UnsupportedEncodingException {
-		List<PP_ProductPO> list = pp_ProductPOService.list(bFinished, endId, detailsFinshed, cDepName, productionCode);
+		List<PP_ProductPO> list = pp_ProductPOService.list(bFinished, endId, detailsFinshed, cDepCode, productionCode, cWhCode);
 		System.out.println(JSONObject.toJSONString(list));
+		
 		return list;
 	}
 	
 	@ResponseBody
 	@RequestMapping("/listPP_Pomain")
-	public List<PP_Pomain> listPP_Pomain(Integer ID, boolean bFinished, boolean detailsFinshed) {
+	public List<PP_Pomain> listPP_Pomain(Integer ID, boolean bFinished, boolean detailsFinshed,String productionCode, String cdepcode ) throws UnsupportedEncodingException {
 		System.out.println(ID);
-		List<PP_Pomain> list = pp_PomainService.list(ID, bFinished, detailsFinshed);
+		List<PP_Pomain> list = pp_PomainService.list(ID, bFinished, detailsFinshed,cdepcode,productionCode);
 		System.out.println(JSONObject.toJSONString(list));
 		return list;
 	}
@@ -79,6 +85,15 @@ public class PP_ProductPOController {
 		return birthproductionWarehousingService.add(data);
 //		return "123";
 	}
+	
+	@ResponseBody
+	@RequestMapping("/getInStock")
+	public BigDecimal getInStock(String cWhCode, String cInvCode) {
+		return currentStockService.getInStock(cWhCode, cInvCode);
+	}
+	
+
+	
 	
 
 	

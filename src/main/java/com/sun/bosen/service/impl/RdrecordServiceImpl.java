@@ -2,6 +2,7 @@ package com.sun.bosen.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +64,7 @@ public class RdrecordServiceImpl implements RdrecordService{
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.000");
 			dateFormat.format(date);
 			rdrecord.setdDate(dateFormat.format(date));
-			rdrecord.setdVeriDate(dateFormat.format(date));
+//			rdrecord.setdVeriDate(dateFormat.format(date));
 			flag[0] = 1;
 			
 			rdrecordMapper.add(rdrecord);
@@ -83,8 +84,11 @@ public class RdrecordServiceImpl implements RdrecordService{
 		return rdrecordMapper.getLastFile();
 	}
 	@Override
-	public List<OutboundList> rdrecordList(String cBusType) {
-		return rdrecordMapper.rdrecordList(cBusType);
+	public List<OutboundList> rdrecordList(String cBusType, int endId) {
+		Map<String, Object> param= new HashMap<String, Object>();
+		param.put("cBusType", cBusType);
+		param.put("endId", endId);
+		return rdrecordMapper.rdrecordList(param);
 	}
 	@Override
 	public String deleteList(int id) {

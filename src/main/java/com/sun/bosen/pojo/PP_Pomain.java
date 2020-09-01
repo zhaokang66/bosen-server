@@ -22,7 +22,15 @@ public class PP_Pomain {
 	private String cDepCode;
 	private String cMemo;
 	private String cRdCode;
+	private int numberOfOutbound;//本次配套出库数量
+	
 
+	public int getNumberOfOutbound() {
+		return numberOfOutbound;
+	}
+	public void setNumberOfOutbound(int numberOfOutbound) {
+		this.numberOfOutbound = numberOfOutbound;
+	}
 	public String getcRdCode() {
 		return cRdCode;
 	}

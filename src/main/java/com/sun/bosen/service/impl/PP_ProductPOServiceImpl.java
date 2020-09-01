@@ -18,13 +18,14 @@ public class PP_ProductPOServiceImpl implements PP_ProductPOService{
 	PP_ProductPOMapper pp_ProductPOMapper;
 	
 	@Override
-	public List<PP_ProductPO> list(boolean bFinished, int endId, boolean detailsFinshed, String cDepName, String productionCode) {
+	public List<PP_ProductPO> list(boolean bFinished, int endId, boolean detailsFinshed, String cDepCode, String productionCode, String cWhCode) {
 		Map<String, Object> param= new HashMap<String, Object>();
 		param.put("bFinished", bFinished);
 		param.put("endId", endId);
 		param.put("detailsFinshed", detailsFinshed);
-		param.put("cDepName", cDepName);
+		param.put("cDepCode", cDepCode);
 		param.put("productionCode", productionCode);
+		param.put("cWhCode", cWhCode);
 		return pp_ProductPOMapper.list(param);
 	}
 

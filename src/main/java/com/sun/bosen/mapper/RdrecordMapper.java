@@ -25,7 +25,7 @@ public interface RdrecordMapper {
 	void addTest();
 	int getLastFile();
 
-	List<OutboundList> rdrecordList(@Param(value="cBusType") String cBusType);
+	List<OutboundList> rdrecordList(Map<String,Object> param);
 
 	String isVerify(@Param(value="id") int id);
 

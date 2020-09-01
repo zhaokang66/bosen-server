@@ -28,6 +28,7 @@ import com.sun.bosen.service.PO_PodetailsService;
 import com.sun.bosen.service.PO_PomainService;
 import com.sun.bosen.service.RdrecordService;
 import com.sun.bosen.service.RdrecordsService;
+import com.sun.bosen.mapper.VoucherHistoryMapper;
 
 @Service
 public class BirthPurchaseWarehousingServiceImpl implements BirthPurchaseWarehousingService {
@@ -56,6 +57,8 @@ public class BirthPurchaseWarehousingServiceImpl implements BirthPurchaseWarehou
 	MyRdrecordMapper myRdrecordMapper;
 	@Autowired
 	PO_PomainMapper po_PomainMapper;
+	@Autowired
+	VoucherHistoryMapper voucherHistoryMapper;
 
 	private int rdrecordStartID;
 	private int myRdrecordStartID;
@@ -86,7 +89,7 @@ public class BirthPurchaseWarehousingServiceImpl implements BirthPurchaseWarehou
 
 			Rdrecords myRdrecords = setRdrecordsValues(data[i], flag2, "MyRdrecords");
 			myRdrecordsService.updateRdrecords(myRdrecords);
-
+			voucherHistoryMapper.updateOtherCcode("24");
 			rdrecordService.updateUfs();
 		}
 		return "提交成功！";
@@ -100,23 +103,17 @@ public class BirthPurchaseWarehousingServiceImpl implements BirthPurchaseWarehou
 		rdrecord.setcVouchType("01");
 		rdrecord.setcRdCode("101");
 		rdrecord.setcWhCode(data.getcWhCode());
-
+		int lastOtherCcode = voucherHistoryMapper.selectOtherCcode("24");
+		rdrecord.setcCode(String.format("%010d", lastOtherCcode+1));
 		Rdrecord infoID = new Rdrecord();
 		if (object.equals("Rdrecord")) {
 			infoID = rdrecordMapper.getLastInfo(null);
 
 			if (infoID == null) {
 				rdrecord.setiD(0);
-				rdrecord.setcCode(String.format("%010d", 1));
 			} else {
 				rdrecord.setiD(infoID.getiD() + 1);
-				Rdrecord info = rdrecordMapper.getLastInfo(rdrecord.getcBusType());
-				if (info == null) {
-					System.out.println("当前查询结果为空！");
-					rdrecord.setcCode(String.format("%010d", 1));
-				} else {
-					rdrecord.setcCode(String.format("%010d", Integer.parseInt(info.getcCode()) + 1));
-				}
+
 			}
 			if (i == 0) {
 				rdrecordStartID = rdrecord.getiD();
@@ -126,16 +123,8 @@ public class BirthPurchaseWarehousingServiceImpl implements BirthPurchaseWarehou
 			infoID = myRdrecordMapper.getLastInfo(null);
 			if (infoID == null) {
 				rdrecord.setiD(0);
-				rdrecord.setcCode(String.format("%010d", 1));
 			} else {
 				rdrecord.setiD(infoID.getiD() + 1);
-				Rdrecord info = myRdrecordMapper.getLastInfo(rdrecord.getcBusType());
-				if (info == null) {
-					System.out.println("当前查询结果为空！");
-					rdrecord.setcCode(String.format("%010d", 1));
-				} else {
-					rdrecord.setcCode(String.format("%010d", Integer.parseInt(info.getcCode()) + 1));
-				}
 			}
 			if (i == 0) {
 				myRdrecordStartID = rdrecord.getiD();

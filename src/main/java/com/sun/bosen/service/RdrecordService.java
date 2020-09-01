@@ -10,6 +10,6 @@ public interface RdrecordService {
 	int getRdrecordId(Map<String, Object> param);
 	int[] updateRdrecord(Rdrecord rdrecord,int i);
 	int getLastFile();
-	List<OutboundList> rdrecordList(String cBusType);
+	List<OutboundList> rdrecordList(String cBusType, int endId);
 	String deleteList(int id);
 }

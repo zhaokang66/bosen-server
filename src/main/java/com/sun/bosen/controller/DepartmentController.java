@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sun.bosen.pojo.Department;
@@ -23,11 +24,11 @@ public class DepartmentController {
 	@Autowired
 	DepartmentService departmentSerice;
 	
-	
 	@ResponseBody
 	@RequestMapping("/getDepartmentList")
-	public List<Department> getDepartmentList() {
-		List<Department> list = departmentSerice.getDepartment();
+	public List<Department> getDepartmentList(@RequestParam(required=false,defaultValue="0")int type) {
+		System.out.println(type);
+		List<Department> list = departmentSerice.getDepartment(type);
 		return list;
 		
 	}

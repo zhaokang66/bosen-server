@@ -21,11 +21,13 @@ public class PP_PomainServiceImpl implements PP_PomainService{
 	PP_PomainMapper pp_PomainMapper;
 	
 	@Override
-	public List<PP_Pomain> list(Integer ID, boolean bFinished, boolean detailsFinshed) {
+	public List<PP_Pomain> list(Integer ID, boolean bFinished, boolean detailsFinshed,String cdepcode,String productionCode) {
 		Map<String, Object> param= new HashMap<String, Object>();
 		param.put("ID", ID);
 		param.put("bFinished", bFinished);
 		param.put("detailsFinshed", detailsFinshed);
+		param.put("cdepcode", cdepcode);
+		param.put("productionCode", productionCode);
 		return pp_PomainMapper.list(param);
 	}
 

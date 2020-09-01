@@ -16,6 +16,7 @@ import com.sun.bosen.mapper.PP_PomainMapper;
 import com.sun.bosen.mapper.PP_ProductPOMapper;
 import com.sun.bosen.mapper.RdrecordMapper;
 import com.sun.bosen.mapper.RdrecordsMapper;
+import com.sun.bosen.mapper.VoucherHistoryMapper;
 import com.sun.bosen.pojo.PP_Pomain;
 import com.sun.bosen.pojo.Rdrecord;
 import com.sun.bosen.pojo.Rdrecords;
@@ -55,6 +56,8 @@ public class BirthProductionWarehousingServiceImpl implements BirthProductionWar
 	MyRdrecordMapper myRdrecordMapper;
 	@Autowired
 	PP_PomainMapper pp_PomainMapper;
+	@Autowired
+	VoucherHistoryMapper voucherHistoryMapper;
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_UNCOMMITTED, rollbackForClassName = "Exception")
@@ -83,33 +86,37 @@ public class BirthProductionWarehousingServiceImpl implements BirthProductionWar
 
 			Rdrecords myRdrecords = setRdrecordsValue(data[i], "MyRdrecords");
 			myRdrecordsService.updateRdrecords(myRdrecords);
-
+			
+			voucherHistoryMapper.updateOtherCcode("0411");
 			rdrecordService.updateUfs();
 		}
 		return "添加成功";
 	}
 
 	private Rdrecord setRdrecordValue(PP_Pomain[] data, String object) {
-
+			
 		Rdrecord rdrecord = new Rdrecord();
 		String cCode = data[0].getcCode();
 		int isExists = 0;
 		int minMainId = data[0].getMainId();
 		
 		for (int i = 1; i < data.length; i++) {
-			if (!data[i].getcCode().equals(cCode)) {
+			if (!data[i].getcCode().equals(cCode)) {//判断数据是否从两个寄两个以上的生产订单拿过来的
 				isExists = 1;
 			}
 			if (data[i].getMainId() < minMainId) {
 				minMainId = data[i].getMainId();
 			}
 		}
+		
+		
 		if (isExists == 0) {
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("ppInMainId", minMainId);
 			rdrecord = pp_ProductPOMapper.getPp_Product(param);
-		}
+		} 
 		
+
 		rdrecord.setcMemo(data[0].getcMemo());
 		rdrecord.setcBusType("成品入库");
 		rdrecord.setcSource("生产订单");
@@ -121,37 +128,22 @@ public class BirthProductionWarehousingServiceImpl implements BirthProductionWar
 		rdrecord.setcDepCode(data[0].getcDepCode());
 		rdrecord.setcMaker(data[0].getcMaker());
 		rdrecord.setcDefine16("0");
-		
+		int lastOtherCcode = voucherHistoryMapper.selectOtherCcode("0411");
+		rdrecord.setcCode(String.format("%010d", lastOtherCcode+1));
 		Rdrecord infoID = new Rdrecord();
 		if (object.equals("Rdrecord")) {
 			infoID = rdrecordMapper.getLastInfo(null);
 			if (infoID == null) {
 				rdrecord.setiD(0);
-				rdrecord.setcCode(String.format("%010d", 1));
 			} else {
 				rdrecord.setiD(infoID.getiD() + 1);
-				Rdrecord info = rdrecordMapper.getLastInfo(rdrecord.getcBusType());
-				if (info == null) {
-					System.out.println("当前查询结果为空！");
-					rdrecord.setcCode(String.format("%010d", 1));
-				} else {
-					rdrecord.setcCode(String.format("%010d", Integer.parseInt(info.getcCode()) + 1));
-				}
 			}
 		} else if (object.equals("MyRdrecord")) {
 			infoID = myRdrecordMapper.getLastInfo(null);
 			if (infoID == null) {
 				rdrecord.setiD(0);
-				rdrecord.setcCode(String.format("%010d", 1));
 			} else {
 				rdrecord.setiD(infoID.getiD() + 1);
-				Rdrecord info = myRdrecordMapper.getLastInfo(rdrecord.getcBusType());
-				if (info == null) {
-					System.out.println("当前查询结果为空！");
-					rdrecord.setcCode(String.format("%010d", 1));
-				} else { 
-					rdrecord.setcCode(String.format("%010d", Integer.parseInt(info.getcCode()) + 1));
-				}
 			}
 
 		}
@@ -166,7 +158,6 @@ public class BirthProductionWarehousingServiceImpl implements BirthProductionWar
 		param1.put("mainId", data.getMainId());
 		Rdrecords rdrecords = pp_PomainMapper.getPp_pomain(param1);
 		rdrecords.setiQuantity(data.getNowiReceivedQTY());
-//		rdrecords.setiNQuantity(data.getNowiReceivedQTY());
 		rdrecords.setiUnitCost(data.getiUnitCost());
 		rdrecords.setiPrice(data.getiPrice());
 		rdrecords.setiMPoIds(data.getMainId());
@@ -176,10 +167,10 @@ public class BirthProductionWarehousingServiceImpl implements BirthProductionWar
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("ID", data.getId());
 		if (object.equals("Rdrecords")) {
-			rdrecords.setiD(rdrecordService.getRdrecordId(param));
+			rdrecords.setiD(rdrecordMapper.getLastInfo("成品入库").getiD());
 			rdrecords.setAutoId(lastAutoID + 1);
 		} else if (object.equals("MyRdrecords")) {
-			rdrecords.setiD(myRdrecordService.getRdrecordId(param));
+			rdrecords.setiD(myRdrecordMapper.getLastInfo("成品入库").getiD());
 		}
 		System.out.println("这个是Rdrecords数据");
 		System.out.println(JSONObject.toJSONString(rdrecords, SerializerFeature.WriteMapNullValue));

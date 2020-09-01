@@ -2,16 +2,14 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- 
+
     <mapper namespace="com.sun.bosen.mapper.DepartmentMapper">    
-       
-        
-        
         <select id="getDepartment" resultType="Department">
         	select cDepCode,cDepName from Department
-        </select>
-        
-        
-
-        
+        	<where>
+        		<if test="type!=0">
+        			and  iDepGrade=${type}
+        		</if>
+        	</where>
+        </select>  
     </mapper>

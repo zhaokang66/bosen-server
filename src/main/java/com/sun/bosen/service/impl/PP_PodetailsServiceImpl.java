@@ -21,7 +21,6 @@ public class PP_PodetailsServiceImpl implements PP_PodetailsService {
 		Map<String, Object> param= new HashMap<String, Object>();
 		param.put("mainId", mainId);
 		param.put("detailsFinshed", detailsFinshed);
-		System.out.println("mk+++++++++++++++++++++++++l"+param);
 		return pp_PodetailsMapper.list(param);
 	}
 	@Override
